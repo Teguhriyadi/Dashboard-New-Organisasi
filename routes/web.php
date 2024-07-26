@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Account\AdminController;
+use App\Http\Controllers\Account\PartnerController;
 use App\Http\Controllers\Account\ProfilController;
 use App\Http\Controllers\Account\ResponderController;
 use App\Http\Controllers\Account\UserController;
@@ -46,12 +47,21 @@ Route::group(["middleware" => ["check.session"]], function () {
         Route::get("/dashboard", [AppController::class, "dashboard"])->name("pages.dashboard");
         Route::get("/logout", [LoginController::class, "logout"])->name("pages.logout");
         Route::prefix("account")->group(function () {
-            Route::controller(AdminController::class)->group(function () {
-                Route::prefix("admin")->group(function () {
+            Route::prefix("admin")->group(function () {
+                Route::controller(AdminController::class)->group(function () {
                     Route::get("/", "index")->name("pages.accounts.admin.index");
                     Route::post("/", "store")->name("pages.accounts.admin.store");
                     Route::get("/{id}", "show")->name("pages.accounts.admin.show");
                     Route::get("/{id}/upgrade", "upgrade")->name("pages.accounts.admin.upgrade");
+                });
+            });
+
+            Route::prefix("partner")->group(function () {
+                Route::controller(PartnerController::class)->group(function () {
+                    Route::get("/{name}", "index")->name("pages.accounts.partner.index");
+                    Route::get("/{name}/lihat-polsek/{province_id}/{regency_id}", "lihatPolsek")->name("pages.account.partner.lihat-polsek");
+                    Route::post("/{name}", "store")->name("pages.accounts.partner.store");
+                    Route::get("/{id}/upgrade", "upgrade")->name("pages.accounts.partner.upgrade");
                 });
             });
 

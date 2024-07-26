@@ -54,8 +54,6 @@ class LoginController extends Controller
                 ]
             );
 
-            dd($response);
-
             $responseBody = json_decode($response->getBody(), true);
 
             if ($responseBody["statusCode"] == 200) {

@@ -184,10 +184,9 @@ class AppController extends Controller
 
             $responder = $client->get(ApiHelper::apiUrl("/organization/account/responder/" . session("data")["member_account_code"] . "/admin"));
             $user = $client->get(ApiHelper::apiUrl("/organization/account/user/" . session("data")["member_account_code"] . "/admin"));
-
             $internal = $client->get(ApiHelper::apiUrl("/organization/account/admin/" . session("data")["username"] . "/show"));
-            $internalBody = json_decode($internal->getBody(), true);
 
+            $internalBody = json_decode($internal->getBody(), true);
             $responderBody = json_decode($responder->getBody(), true);
             $userBody = json_decode($user->getBody(), true);
 

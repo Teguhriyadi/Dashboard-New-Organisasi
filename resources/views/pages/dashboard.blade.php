@@ -60,6 +60,8 @@
                     </div>
                 </div>
             </div>
+
+            @if (session("data")["account_category"] != "PARTNER")
             <div class="col-md-6">
                 <div class="x_panel">
                     <div class="x_title">
@@ -122,9 +124,11 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 
+    @if (session("data")["account_category"] != "PARTNER")
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -179,7 +183,7 @@
             </div>
         </div>
     </div>
-
+    @endif
 
 @endsection
 

@@ -9,13 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>
-        .: {{ config('app.name') }} - @yield("title") :.
+        .: {{ config('app.name') }} - @yield('title') :.
     </title>
 
     <link rel="icon" type="image/png" href="{{ URL::asset('template/images/LOGO-TAB-TNOS.png') }}" />
     @include('pages.layouts.components.css.style-css')
 
-    @yield("component-css")
+    @yield('component-css')
 
 </head>
 
@@ -38,7 +38,8 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src="{{ url('/template') }}/images/img.jpg" alt="..." class="img-circle profile_img">
+                            <img src="{{ url('/template') }}/images/img.jpg" alt="..."
+                                class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
@@ -52,19 +53,21 @@
 
                     <br />
 
-                    @if (session("data.role_id.role_name") == "superadmin")
-                        @include("pages.layouts.components.sidebar.sidebar")
-                    @elseif(session("data.role_id.role_name") == "admin")
-                        @include("pages.layouts.components.sidebar.sidebar-admin")
+                    @if (session('data.role_id.role_name') == 'superadmin')
+                        @include('pages.layouts.components.sidebar.sidebar')
+                    @elseif(session('data.role_id.role_name') == 'admin')
+                        @include('pages.layouts.components.sidebar.sidebar-admin')
+                    @elseif(session('data.role_id.role_name') == 'partner')
+                        @include('pages.layouts.components.sidebar.sidebar-partner')
                     @endif
 
                 </div>
             </div>
 
-            @include("pages.layouts.components.topbar.navbar-top")
+            @include('pages.layouts.components.topbar.navbar-top')
 
             <div class="right_col" role="main">
-                @yield("content-page")
+                @yield('content-page')
             </div>
 
             @include('pages.layouts.components.footer.footer')
@@ -74,7 +77,7 @@
 
     @include('pages.layouts.components.javascript.style-js')
 
-    @yield("component-js")
+    @yield('component-js')
 
 </body>
 
