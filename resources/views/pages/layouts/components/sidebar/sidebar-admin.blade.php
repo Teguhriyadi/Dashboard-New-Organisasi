@@ -7,6 +7,7 @@
                     <i class="fa fa-home"></i> Dashboard
                 </a>
             </li>
+            @if (session("data")["account_category"] == "INTERNAL")
             <li>
                 <a>
                     <i class="fa fa-book"></i> Master
@@ -18,6 +19,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <li>
                 <a>
                     <i class="fa fa-money"></i> Transaksi

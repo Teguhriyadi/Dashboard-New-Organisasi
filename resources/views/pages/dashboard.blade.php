@@ -61,128 +61,132 @@
                 </div>
             </div>
 
-            @if (session("data")["account_category"] != "PARTNER")
-            <div class="col-md-6">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>
-                            Detail Paket
-                        </h2>
-                        @if ($showDetail['detailMembership']['remainingDate'] >= 7)
-                            <a href="{{ route('pages.master.paket.index') }}" class="btn btn-primary btn-sm pull-right">
-                                Perpanjang
-                            </a>
-                        @else
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal"
-                                data-target=".bs-example-modal-lg">
-                                <i class="fa fa-plus" style="margin-right: 5px"></i> Tambah Limit User
-                            </button>
-                        @endif
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <div class="row">
-                            <div class="col-md-4">
-                                Nama Paket
-                            </div>
-                            <div class="col-md-5">
-                                {{ $showDetail['detailMembership']['nama_paket'] }}
-                            </div>
+            @if (session('data')['account_category'] != 'PARTNER')
+                <div class="col-md-6">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>
+                                Detail Paket
+                            </h2>
+                            @if (session('data')['account_category'] == 'INTERNAL')
+                                @if ($showDetail['detailMembership']['remainingDate'] >= 7)
+                                    <a href="{{ route('pages.master.paket.index') }}"
+                                        class="btn btn-primary btn-sm pull-right">
+                                        Perpanjang
+                                    </a>
+                                @else
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal"
+                                        data-target=".bs-example-modal-lg">
+                                        <i class="fa fa-plus" style="margin-right: 5px"></i> Tambah Limit User
+                                    </button>
+                                @endif
+                            @endif
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                Status Subscribe
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Nama Paket
+                                </div>
+                                <div class="col-md-5">
+                                    {{ $showDetail['detailMembership']['nama_paket'] }}
+                                </div>
                             </div>
-                            <div class="col-md-5">
-                                {{ $showDetail['detailMembership']['status_subscribe'] }}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Status Subscribe
+                                </div>
+                                <div class="col-md-5">
+                                    {{ $showDetail['detailMembership']['status_subscribe'] }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                Durasi Waktu
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Durasi Waktu
+                                </div>
+                                <div class="col-md-5">
+                                    {{ $showDetail['detailMembership']['remainingDate'] }} Hari
+                                </div>
                             </div>
-                            <div class="col-md-5">
-                                {{ $showDetail['detailMembership']['remainingDate'] }} Hari
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Limit User
+                                </div>
+                                <div class="col-md-5">
+                                    {{ $showDetail['detailMembership']['limit_user'] }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                Limit User
-                            </div>
-                            <div class="col-md-5">
-                                {{ $showDetail['detailMembership']['limit_user'] }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                Limit Responder
-                            </div>
-                            <div class="col-md-5">
-                                {{ $showDetail['detailMembership']['limit_contact'] }}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Limit Responder
+                                </div>
+                                <div class="col-md-5">
+                                    {{ $showDetail['detailMembership']['limit_contact'] }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @endif
         </div>
     </div>
 
-    @if (session("data")["account_category"] != "PARTNER")
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    @if (session('data')['account_category'] != 'PARTNER')
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        <i class="fa fa-plus"></i> Tambah Data
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="code" value="{{ $showDetail['detailMembership']['code'] }}">
-                    @if ($showDetail['detailMembership']['code'])
-                        <input type="hidden" name="id_master_paket_organization"
-                            value="{{ $showDetail['detailMembership']['id_master_paket_organization'] }}">
-                    @endif
-                    <input type="hidden" name="limit_user" value="{{ $showDetail['detailMembership']['limit_user'] }}">
-                    <input type="hidden" name="member_account_code"
-                        value="{{ $showDetail['detailMembership']['member_account_code'] }}">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <label for="jumlah-user" class="form-label"> Jumlah User </label>
-                                <input type="number" min="1" class="form-control" name="jumlah-user"
-                                    id="jumlah-user" placeholder="0">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            <i class="fa fa-plus"></i> Tambah Data
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="code" value="{{ $showDetail['detailMembership']['code'] }}">
+                        @if ($showDetail['detailMembership']['code'])
+                            <input type="hidden" name="id_master_paket_organization"
+                                value="{{ $showDetail['detailMembership']['id_master_paket_organization'] }}">
+                        @endif
+                        <input type="hidden" name="limit_user"
+                            value="{{ $showDetail['detailMembership']['limit_user'] }}">
+                        <input type="hidden" name="member_account_code"
+                            value="{{ $showDetail['detailMembership']['member_account_code'] }}">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label for="jumlah-user" class="form-label"> Jumlah User </label>
+                                    <input type="number" min="1" class="form-control" name="jumlah-user"
+                                        id="jumlah-user" placeholder="0">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" style="margin-top: 5px">
+                                    <label for="" class="form-label"></label>
+                                    <button class="btn btn-primary btn-sm btn-block" id="btn-check">
+                                        Check
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group" style="margin-top: 5px">
-                                <label for="" class="form-label"></label>
-                                <button class="btn btn-primary btn-sm btn-block" id="btn-check">
-                                    Check
-                                </button>
+                        <div class="form-group">
+                            <label for="harga" class="form-label"> Harga </label>
+                            <div id="harga">
+                                Rp. 0
                             </div>
+                            <input type="hidden" name="limit_user_new" id="limit_user_new">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="harga" class="form-label"> Harga </label>
-                        <div id="harga">
-                            Rp. 0
-                        </div>
-                        <input type="hidden" name="limit_user_new" id="limit_user_new">
+                    <div class="modal-footer">
+                        <button class="btn btn-success btn-sm btn-block" id="btn-pembayaran">
+                            <i class="fa fa-edit"></i> Lanjutkan Pembayaran
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success btn-sm btn-block" id="btn-pembayaran">
-                        <i class="fa fa-edit"></i> Lanjutkan Pembayaran
-                    </button>
                 </div>
             </div>
         </div>
-    </div>
     @endif
 
 @endsection
