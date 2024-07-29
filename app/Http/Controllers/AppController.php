@@ -185,10 +185,12 @@ class AppController extends Controller
             $responder = $client->get(ApiHelper::apiUrl("/organization/account/responder/" . session("data")["member_account_code"] . "/admin"));
             $user = $client->get(ApiHelper::apiUrl("/organization/account/user/" . session("data")["member_account_code"] . "/admin"));
             $internal = $client->get(ApiHelper::apiUrl("/organization/account/admin/" . session("data")["username"] . "/show"));
+            $partner = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction/umum"));
 
             $internalBody = json_decode($internal->getBody(), true);
             $responderBody = json_decode($responder->getBody(), true);
             $userBody = json_decode($user->getBody(), true);
+            $partnerBody = json_decode($partner->getBody(), true);
 
             DB::commit();
 
@@ -197,6 +199,8 @@ class AppController extends Controller
                 $data["showDetail"] = $internalBody["data"];
                 $data["totalResponder"] = $responderBody["total"];
                 $data["totalUser"] = $userBody["total"];
+                $data['totalResponderPartner'] = $internalBody["data"]['total_responder_partner'];
+                $data['totalTransaksiPartnerUmum'] = $partnerBody["total"];
 
                 return view("pages.dashboard", $data);
             } else {

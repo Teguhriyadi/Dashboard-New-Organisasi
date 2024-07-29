@@ -8,8 +8,8 @@
         rel="stylesheet">
     <link href="{{ URL::asset('template') }}/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css"
         rel="stylesheet">
-        <link href="{{ URL::asset('template') }}/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
-        <link href="{{ URL::asset('template') }}/build/css/custom.min.css" rel="stylesheet">
+    <link href="{{ URL::asset('template') }}/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <link href="{{ URL::asset('template') }}/build/css/custom.min.css" rel="stylesheet">
 @endsection
 
 @section('content-page')
@@ -66,44 +66,53 @@
                                 @php
                                     $nomer = 0;
                                 @endphp
-                                @foreach ($user as $item)
-                                    <tr>
-                                        <td class="text-center">{{ ++$nomer }}.</td>
-                                        <td>{{ $item['detail']['nama'] }}</td>
-                                        <td class="text-center">{{ $item['detail']['member_account_code'] }}</td>
-                                        <td class="text-center">{{ $item['detail']['country_code'] }}</td>
-                                        <td class="text-center">{{ $item['detail']['phone_number'] }}</td>
-                                        <td class="text-center">{{ empty($item['detail']['username']) ? '-' : $item['detail']['username'] }}
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="custom-control custom-switch">
-                                                <input {{ $item['detail']['account_status_id'] == "active" ? 'checked' : '' }} type="checkbox" class="custom-control-input js-switch"
-                                                    id="customSwitch{{ $item['detail']['id_user_organization'] }}"
-                                                    data-id="{{ $item['detail']['id_user_organization'] }}">
-                                                <label class="custom-control-label text-uppercase"
-                                                    for="customSwitch{{ $item['detail']['id_user_organization'] }}">
-                                                    {{ $item['detail']['account_status_id'] }}
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="{{ route('pages.accounts.user.show', ['idUser' => $item['detail']['username']]) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fa fa-search"></i> Detail
-                                            </a>
-                                            <form
-                                                action="{{ route('pages.accounts.user.destroy', ['idUser' => $item['detail']['id_user_organization']]) }}"
-                                                method="POST" style="display: inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button onclick="return confirm('Yakin ? Ingin Menghapus Data Ini?')"
-                                                    type="submit" class="btn btn-danger btn-sm">
-                                                    <i class="fa fa-trash"></i> Hapus
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @if (count($user) == 0)
+                                    <div>
+                                        Kosong
+                                    </div>
+                                @else
+                                    @foreach ($user as $item)
+                                        <tr>
+                                            <td class="text-center">{{ ++$nomer }}.</td>
+                                            <td>{{ $item['detail']['nama'] }}</td>
+                                            <td class="text-center">{{ $item['detail']['member_account_code'] }}</td>
+                                            <td class="text-center">{{ $item['detail']['country_code'] }}</td>
+                                            <td class="text-center">{{ $item['detail']['phone_number'] }}</td>
+                                            <td class="text-center">
+                                                {{ empty($item['detail']['username']) ? '-' : $item['detail']['username'] }}
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="custom-control custom-switch">
+                                                    <input
+                                                        {{ $item['detail']['account_status_id'] == 'active' ? 'checked' : '' }}
+                                                        type="checkbox" class="custom-control-input js-switch"
+                                                        id="customSwitch{{ $item['detail']['id_user_organization'] }}"
+                                                        data-id="{{ $item['detail']['id_user_organization'] }}">
+                                                    <label class="custom-control-label text-uppercase"
+                                                        for="customSwitch{{ $item['detail']['id_user_organization'] }}">
+                                                        {{ $item['detail']['account_status_id'] }}
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{{ route('pages.accounts.user.show', ['idUser' => $item['detail']['username']]) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fa fa-search"></i> Detail
+                                                </a>
+                                                <form
+                                                    action="{{ route('pages.accounts.user.destroy', ['idUser' => $item['detail']['id_user_organization']]) }}"
+                                                    method="POST" style="display: inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button onclick="return confirm('Yakin ? Ingin Menghapus Data Ini?')"
+                                                        type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-trash"></i> Hapus
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @endif
                             </tbody>
                         </table>
                     </div>
@@ -129,25 +138,31 @@
                     method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="nama" class="form-label"> Nama </label>
-                            <input type="text" class="form-control" name="nama" id="nama"
-                                placeholder="Masukkan Nama" value="{{ old('nama') }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone_number" class="form-label"> Nomor HP </label>
-                            <input type="number" class="form-control" name="phone_number" id="phone_number"
-                                placeholder="Masukkan Nomor HP" value="{{ old('phone_number') }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="form-label"> Password </label>
-                            <input type="password" class="form-control" name="password" id="password"
-                                placeholder="Masukkan Password">
-                        </div>
-                        <div class="form-group">
-                            <label for="country_code" class="form-label"> Kode Negara </label>
-                            <input type="text" class="form-control" name="country_code" id="country_code"
-                                placeholder="Masukkan Kode Negara">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nama" class="form-label"> Nama </label>
+                                    <input type="text" class="form-control" name="nama" id="nama"
+                                        placeholder="Masukkan Nama" value="{{ old('nama') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone_number" class="form-label"> Nomor HP </label>
+                                    <input type="number" class="form-control" name="phone_number" id="phone_number"
+                                        placeholder="Masukkan Nomor HP" value="{{ old('phone_number') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email" class="form-label"> Email </label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="Masukkan Email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country_code" class="form-label"> Kode Negara </label>
+                                    <input type="text" class="form-control" name="country_code" id="country_code"
+                                        placeholder="Masukkan Kode Negara">
+                                </div>
+                            </div>
                         </div>
                         {{-- <div class="form-group">
                             <label for="username" class="form-label"> Username </label>

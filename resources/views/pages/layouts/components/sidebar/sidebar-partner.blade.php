@@ -9,12 +9,12 @@
     $data = [];
 
     $responder = $client->post(
-        ApiHelper::apiUrl('/organization/partner/' . session("data")["username"] . '/check_add_institution'),
+        ApiHelper::apiUrl('/organization/partner/' . session('data')['username'] . '/check_add_institution'),
     );
 
     $responderBody = json_decode($responder->getBody(), true);
 
-    $listmenu = $responderBody["data"];
+    $listmenu = $responderBody['data'];
 
 @endphp
 
@@ -28,17 +28,19 @@
                     <i class="fa fa-home"></i> Dashboard
                 </a>
             </li>
-            <li>
-                <a>
-                    <i class="fa fa-money"></i> Transaksi
-                    <span class="fa fa-chevron-down"></span>
-                </a>
-                <ul class="nav child_menu">
-                    <li>
-                        <a href="{{ route('pages.transaction.history-payment.index') }}"> Riwayat Pembayaran </a>
-                    </li>
-                </ul>
-            </li>
+            @if (session('data')['account_category'] == 'PARTNER')
+                <li>
+                    <a>
+                        <i class="fa fa-money"></i> Data Penjualan TAB
+                        <span class="fa fa-chevron-down"></span>
+                    </a>
+                    <ul class="nav child_menu">
+                        <li>
+                            <a href="{{ route('pages.transaction.history-payment.index') }}"> Riwayat </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
             <li>
                 <a>
                     <i class="fa fa-users"></i> Akun
@@ -46,12 +48,11 @@
                 </a>
                 <ul class="nav child_menu">
                     @foreach ($listmenu as $item)
-                    <li>
-                        <a
-                            href="{{ route('pages.accounts.partner.index', ['name' => $item['menu']]) }}">
-                            {{ $item['menu'] }}
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{{ route('pages.accounts.partner.index', ['name' => $item['menu']]) }}">
+                                {{ $item['menu'] }}
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
             </li>

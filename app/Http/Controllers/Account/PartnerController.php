@@ -27,6 +27,10 @@ class PartnerController extends Controller
                 $params = session("data")["province_id"];
             } else if ($name == "POLSEK") {
                 $params = session("data")["regency_id"];
+            } else if($name === "KODIM"){
+                $params = session("data")["province_id"];
+            } else if( $name === "KORAMIL"){
+                $params = session("data")["regency_id"];
             }
 
             $responder = $client->get(ApiHelper::apiUrl("/region/" . session("data")["sub_category_organization_id"]["name"] . "/institution/regencies/" . $params));

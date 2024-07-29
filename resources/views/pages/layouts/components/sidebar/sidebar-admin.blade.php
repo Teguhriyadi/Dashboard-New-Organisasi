@@ -19,7 +19,6 @@
                     </li>
                 </ul>
             </li>
-            @endif
             <li>
                 <a>
                     <i class="fa fa-money"></i> Transaksi
@@ -31,6 +30,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <li>
                 <a>
                     <i class="fa fa-users"></i> Akun

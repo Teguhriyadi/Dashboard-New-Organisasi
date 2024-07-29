@@ -23,7 +23,7 @@ class ResponderController extends Controller
             if ($response->successful()) {
 
                 $responseBody = $response->json();
-
+              
                 if ($responseBody["statusCode"] == 200) {
                     $data["responder"] = $responseBody["data"];
                 } else {
@@ -89,6 +89,8 @@ class ResponderController extends Controller
             if ($response->successful()) {
 
                 $responseBody = $response->json();
+
+                dd($username);
 
                 if ($responseBody["statusCode"] == 200) {
                     $data["detail"] = $responseBody["data"];
