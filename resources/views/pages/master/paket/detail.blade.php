@@ -61,8 +61,8 @@
         <input type="text" id="total-harga" class="form-control" value="Rp 0" readonly>
     </div>
     <small class="text-danger fw-bold">
-        Catatan : Dengan membeli paket baru, sisa masa aktif paket yang sebelumnya akan hangus
-    </small>
+    Catatan : Dengan membeli paket baru, sisa masa aktif paket yang sebelumnya akan hangus
+</small>
 </div>
 <div class="modal-footer">
     <button class="btn btn-success text-uppercase btn-block" id="btn-pembayaran">
@@ -179,7 +179,7 @@
                     durasi = 365;
                 }
             } else {
-                durasi = @json($paketSaatIni['duration_date']);
+                durasi = 365;
             }
 
             let duration_date = durasi;
