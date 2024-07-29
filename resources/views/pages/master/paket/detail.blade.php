@@ -38,22 +38,22 @@
             value="{{ $paketSaatIni['limit_contact'] }}">
     </div>
 
-    @if ($code !== "001")
-    <input type="hidden" name="code" id="code" value="{{ $code }}">
-    <div class="form-group">
-        <label for="masa_aktif_paket" class="form-label"> Masa Aktif Paket </label>
-        <select name="masa_aktif_paket" class="form-control" id="masa_aktif_paket">
-            <option value="">- Pilih -</option>
-            <option value="3">90 Hari</option>
-            <option value="6">180 Hari</option>
-            <option value="12">365 Hari</option>
-        </select>
-    </div>
+    @if ($code !== '001')
+        <input type="hidden" name="code" id="code" value="{{ $code }}">
+        <div class="form-group">
+            <label for="masa_aktif_paket" class="form-label"> Masa Aktif Paket </label>
+            <select name="masa_aktif_paket" class="form-control" id="masa_aktif_paket">
+                <option value="">- Pilih -</option>
+                <option value="3">90 Hari</option>
+                <option value="6">180 Hari</option>
+                <option value="12">365 Hari</option>
+            </select>
+        </div>
     @else
-    <div class="form-group">
-        <label class="form-label"> Masa Aktif </label>
-        <input type="text" class="form-control" value="365 Hari" readonly>
-    </div>
+        <div class="form-group">
+            <label class="form-label"> Masa Aktif </label>
+            <input type="text" class="form-control" value="365 Hari" readonly>
+        </div>
     @endif
 
     <div class="form-group">
@@ -69,7 +69,6 @@
         <i class="fa fa-edit" style="margin-right: 5px"></i> Lanjutkan Pembayaran
     </button>
 </div>
-
 
 <script type="text/javascript">
     function formatRupiah(amount) {
@@ -90,11 +89,21 @@
     $(document).ready(function() {
 
         function checkPricePaket() {
+
             let limituser = parseInt($("#limit-user").val()) || 0;
             let tambahUser = parseInt($("#tambah-user").val()) || 0;
+            let durationDate = parseInt($("#masa_aktif_paket").val()) || 0;
+
             let totalUser = limituser + tambahUser;
 
-            let code = @json($paketSaatIni['id_master_paket_organization']);
+            let dataCode;
+
+            if (@json($code) != "001") {
+                dataCode = @json($code);
+            } else {
+                dataCode = @json($detail);
+            }
+
             let member_account_code = @json(session('data')['member_account_code']);
 
             $.ajax({
@@ -102,14 +111,25 @@
                 type: "POST",
                 data: {
                     limituser: totalUser,
-                    code: code,
+                    code: dataCode,
+                    durationDate: durationDate,
                     member_account_code: member_account_code,
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
                     if (response.status == true) {
-                        let formattedAmount = formatRupiah(response.data.amount);
-                        $("#total-harga").val(formattedAmount);
+
+                        if (response.data.nama_paket == "Custom") {
+                            let formattedAmount = formatRupiah(response.data.amount);
+                            $("#total-harga").val(formattedAmount);
+                        } else {
+                            if (response.data.amount_ganti_paket == 0) {
+                                $("#total-harga").val(0)
+                            } else {
+                                let formattedAmount = formatRupiah(response.data.amount_ganti_paket);
+                                $("#total-harga").val(formattedAmount);
+                            }
+                        }
                     } else if (response.status == false) {
                         console.log(response.message);
                     }
@@ -121,33 +141,34 @@
         }
 
         $("#masa_aktif_paket").on('change', function() {
-            let limituser = $("#limit-user").val();
-            let durationDate = $("#masa_aktif_paket").val();
-            let code = @json($code);
-            let member_account_code = @json(session('data')['member_account_code']);
+            // let limituser = $("#limit-user").val();
+            // let durationDate = $("#masa_aktif_paket").val();
+            // let code = @json($code);
+            // let member_account_code = @json(session('data')['member_account_code']);
 
-            $.ajax({
-                url: "{{ url('/check-price-komersil') }}",
-                type: "POST",
-                data: {
-                    code: code,
-                    limit_user: limituser,
-                    member_account_code: member_account_code,
-                    durationDate: durationDate,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    if (response.status == true) {
-                        let formattedAmount = formatRupiah(response.data.amount);
-                        $("#total-harga").val(formattedAmount);
-                    } else if (response.status == false) {
-                        console.log(response.message);
-                    }
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
+            // $.ajax({
+            //     url: "{{ url('/check-price-komersil') }}",
+            //     type: "POST",
+            //     data: {
+            //         code: code,
+            //         limit_user: limituser,
+            //         member_account_code: member_account_code,
+            //         durationDate: durationDate,
+            //         _token: "{{ csrf_token() }}"
+            //     },
+            //     success: function(response) {
+            //         if (response.status == true) {
+            //             let formattedAmount = formatRupiah(response.data.amount);
+            //             $("#total-harga").val(formattedAmount);
+            //         } else if (response.status == false) {
+            //             console.log(response.message);
+            //         }
+            //     },
+            //     error: function(error) {
+            //         console.log(error);
+            //     }
+            // });
+            checkPricePaket();
         });
 
         checkPricePaket();
@@ -164,11 +185,11 @@
             let harga = $("#total-harga").val();
             let limit_user = $("#limit-user").val();
             let code = $("#code").val()
-            let id_master = @json($paketSaatIni['id_master_paket_organization']);
+            let id_master = @json($detail);
             let limit_contact = @json($paketSaatIni['limit_contact']);
 
             let durasi;
-            if (code == "04") {
+            if (code != "001") {
                 durasi = $("#masa_aktif_paket").val()
 
                 if (durasi == "3") {
@@ -179,7 +200,7 @@
                     durasi = 365;
                 }
             } else {
-                durasi = @json($paketSaatIni['duration_date']);
+                durasi = 365;
             }
 
             let duration_date = durasi;

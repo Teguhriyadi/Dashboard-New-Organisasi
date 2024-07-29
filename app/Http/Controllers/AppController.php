@@ -30,6 +30,8 @@ class AppController extends Controller
                 "member_account_code" => $request->member_account_code
             ];
 
+            dd($data);
+
             if ($data["code"] == "001") {
                 $url = "/organization/payment/check_price_pendidikan";
                 $code = [
@@ -133,14 +135,28 @@ class AppController extends Controller
                 "timeout" => 10
             ]);
 
-            $data = [
-                "code" => intval($request->code),
-                "add_on_user" => intval($request->limituser),
-                "member_account_code" => $request->member_account_code
-            ];
+            if ($request->code == "1" || $request->code == "2" || $request->code == "3") {
+                $apiUrl = "/organization/payment/check_price_pendidikan";
+
+                $data = [
+                    "code" => intval($request->code),
+                    "member_account_code" => $request->member_account_code,
+                    "limit_user" => intval($request->limituser)
+                ];
+
+            } else {
+                $apiUrl = "/organization/payment/check_price_komersil";
+
+                $data = [
+                    "code" => intval($request->code),
+                    "limit_user" => intval($request->limituser),
+                    "member_account_code" => $request->member_account_code,
+                    "durationDate" => intval($request->durationDate)
+                ];
+            }
 
             $response = $client->post(
-                ApiHelper::apiUrl("/organization/payment/check_price_pendidikan"),
+                ApiHelper::apiUrl($apiUrl),
                 [
                     "json" => $data,
                     'headers' => [
@@ -156,7 +172,7 @@ class AppController extends Controller
             return response()->json([
                 "status" => true,
                 "message" => "Data Berhasil di Tampilkan",
-                "data" => $responseBody["data"]
+                "data" => $request->code == "1" || $request->code == "2" || $request->code == "3" ? $responseBody["data"] : $responseBody["extendsPaket"]
             ]);
 
         } catch (\Exception $e) {
@@ -198,7 +214,7 @@ class AppController extends Controller
             if ($responderBody["statusCode"] == 200 && $userBody["statusCode"] == 200 && $internalBody["statusCode"] == 200) {
 
                 $data["showDetail"] = $internalBody["data"];
-                
+
                 $data["totalResponder"] = $responderBody["total"];
                 $data["totalUser"] = $userBody["total"];
                 $data['totalResponderPartner'] = $internalBody["data"]['total_responder_partner'];

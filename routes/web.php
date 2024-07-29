@@ -12,6 +12,7 @@ use App\Http\Controllers\Master\PaketController;
 use App\Http\Controllers\Pengaturan\RoleController;
 use App\Http\Controllers\Report\PanicController;
 use App\Http\Controllers\Transaksi\HistoryPaymentController;
+use App\Http\Controllers\Transaksi\HistoryPaymentPartnerController;
 use App\Http\Controllers\Transaksi\PaymentController;
 use Illuminate\Support\Facades\Route;
 
@@ -127,6 +128,12 @@ Route::group(["middleware" => ["check.session"]], function () {
             Route::controller(HistoryPaymentController::class)->group(function () {
                 Route::prefix("history-payment")->group(function () {
                     Route::get("/", "index")->name("pages.transaction.history-payment.index");
+                });
+            });
+
+            Route::controller(HistoryPaymentPartnerController::class)->group(function() {
+                Route::prefix("history-payment-partner")->group(function() {
+                    Route::get("/", "index")->name("pages.transaction.history-payment-partner.index");
                 });
             });
         });
