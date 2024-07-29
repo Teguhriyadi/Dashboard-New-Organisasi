@@ -53,7 +53,7 @@ class ResponderController extends Controller
                 "nama" => $request->nama,
                 "country_code" => $request->country_code,
                 "phone_number" => $request->phone_number,
-                "password" => $request->password
+                "email" => $request->email
             ];
 
             $response = Http::post(ApiHelper::apiUrl("/organization/account/admin/" . $member_account_code . "/create_responder"), $data);
@@ -79,7 +79,6 @@ class ResponderController extends Controller
     public function show($username)
     {
         try {
-
             DB::beginTransaction();
 
             $data = [];
@@ -89,8 +88,6 @@ class ResponderController extends Controller
             if ($response->successful()) {
 
                 $responseBody = $response->json();
-
-                dd($username);
 
                 if ($responseBody["statusCode"] == 200) {
                     $data["detail"] = $responseBody["data"];

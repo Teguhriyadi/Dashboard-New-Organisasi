@@ -58,7 +58,6 @@ class UserController extends Controller
                 $responseBody = $user->json();
 
                 if ($responseBody["statusCode"] == 200) {
-
                     $data["user"] = $responseBody["data"];
                 } else {
                     return redirect()->route("pages.dashboard")->with("error", "Terjadi Kesalahan");

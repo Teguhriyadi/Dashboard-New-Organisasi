@@ -66,53 +66,45 @@
                                 @php
                                     $nomer = 0;
                                 @endphp
-                                @if (count($responder) == 0)
-                                    <div>
-                                        Kosong
-                                    </div>
-                                @else
-                                    @foreach ($responder as $item)
-                                        <tr>
-                                            <td class="text-center">{{ ++$nomer }}.</td>
-                                            <td>{{ $item['detail']['nama'] }}</td>
-                                            <td class="text-center">{{ $item['detail']['member_account_code'] }}</td>
-                                            <td class="text-center">{{ $item['detail']['country_code'] }}</td>
-                                            <td class="text-center">{{ $item['detail']['phone_number'] }}</td>
-                                            <td class="text-center">
-                                                {{ empty($item['detail']['username']) ? '-' : $item['detail']['username'] }}
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="custom-control custom-switch">
-                                                    <input
-                                                        {{ $item['detail']['account_status_id'] == 'active' ? 'checked' : '' }}
-                                                        type="checkbox" class="custom-control-input js-switch"
-                                                        id="customSwitch{{ $item['detail']['id_responder_organization'] }}"
-                                                        data-id="{{ $item['detail']['id_responder_organization'] }}">
-                                                    <label class="custom-control-label text-uppercase"
-                                                        for="customSwitch{{ $item['detail']['id_responder_organization'] }}">
-                                                        {{ $item['detail']['account_status_id'] }}
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="{{ route('pages.accounts.responder.show', ['username' => $item['detail']['id_responder_organization']]) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fa fa-search"></i> Detail
-                                                </a>
-                                                <form
-                                                    action="{{ route('pages.accounts.responder.destroy', ['idUser' => $item['detail']['id_responder_organization']]) }}"
-                                                    method="POST" style="display: inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button onclick="return confirm('Yakin ? Ingin Menghapus Data Ini?')"
-                                                        type="submit" class="btn btn-danger btn-sm">
-                                                        <i class="fa fa-trash"></i> Hapus
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    @endif
+                                @foreach ($responder as $item)
+                                    <tr>
+                                        <td class="text-center">{{ ++$nomer }}.</td>
+                                        <td>{{ $item['detail']['nama'] }}</td>
+                                        <td class="text-center">{{ $item['detail']['member_account_code'] }}</td>
+                                        <td class="text-center">{{ $item['detail']['country_code'] }}</td>
+                                        <td class="text-center">{{ $item['detail']['phone_number'] }}</td>
+                                        <td class="text-center">
+                                            {{ empty($item['detail']['username']) ? '-' : $item['detail']['username'] }}
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="custom-control custom-switch">
+                                                <input {{ $item['detail']['account_status_id'] == "active" ? 'checked' : '' }} type="checkbox" class="custom-control-input js-switch"
+                                                    id="customSwitch{{ $item['detail']['id_responder_organization'] }}"
+                                                    data-id="{{ $item['detail']['id_responder_organization'] }}">
+                                                <label class="custom-control-label text-uppercase"
+                                                    for="customSwitch{{ $item['detail']['id_responder_organization'] }}">
+                                                    {{ $item['detail']['account_status_id'] }}
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ route('pages.accounts.responder.show', ['username' => $item['detail']['username']])}}"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fa fa-search"></i> Detail
+                                            </a>
+                                            <form
+                                                action="{{ route('pages.accounts.responder.destroy', ['idUser' => $item['detail']['id_responder_organization']]) }}"
+                                                method="POST" style="display: inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button onclick="return confirm('Yakin ? Ingin Menghapus Data Ini?')"
+                                                    type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
