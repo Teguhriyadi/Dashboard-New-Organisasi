@@ -24,13 +24,17 @@ class ResponderController extends Controller
             ]);
 
             $response = $client->get(ApiHelper::apiUrl("/organization/account/responder/" . $member_account_code . "/admin"));
+            $detailAdmin = Http::timeout(10)->get(ApiHelper::apiUrl("/organization/account/admin/" . session("data")["username"] . "/show"));
+
             $responseBody = json_decode($response->getBody(), true);
+            $responseAdmin = json_decode($detailAdmin->getBody(), true);
 
             DB::commit();
 
             if ($responseBody["statusCode"] == 200) {
 
                 $data["responder"] = $responseBody["data"];
+                $data["detailMembership"] = $responseAdmin["data"]["detailMembership"];
 
                 return view("pages.account.responder.index", $data);
             } else {

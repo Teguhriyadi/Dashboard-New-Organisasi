@@ -192,11 +192,13 @@ class AppController extends Controller
             $userBody = json_decode($user->getBody(), true);
             $partnerBody = json_decode($partner->getBody(), true);
 
+            // dd($internalBody);
             DB::commit();
 
             if ($responderBody["statusCode"] == 200 && $userBody["statusCode"] == 200 && $internalBody["statusCode"] == 200) {
 
                 $data["showDetail"] = $internalBody["data"];
+                
                 $data["totalResponder"] = $responderBody["total"];
                 $data["totalUser"] = $userBody["total"];
                 $data['totalResponderPartner'] = $internalBody["data"]['total_responder_partner'];

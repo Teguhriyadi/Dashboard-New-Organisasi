@@ -45,9 +45,17 @@
                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
                             data-target=".bs-example-modal-lg">
                             <i class="fa fa-plus"></i> Tambah
+                            {{ $detailMembership['total_responder'] }} /
+                            {{ $detailMembership['limit_contact'] }}
                         </button>
                         <div class="clearfix"></div>
+                        
                     </div>
+                    @if ($detailMembership['total_responder'] > $detailMembership['limit_contact'])
+                        <p>
+                            Silahkan non-aktifkan responder anda, karena telah melebihi limit. Agar Alert button dapat digunakan
+                        </p>
+                    @endif
                     <div class="x_content">
                         <table id="datatable" class="table table-striped table-bordered">
                             <thead>
@@ -132,7 +140,7 @@
                     method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama" class="form-label"> Nama </label>
                             <input type="text" class="form-control" name="nama" id="nama"
                                 placeholder="Masukkan Nama" value="{{ old('nama') }}">
@@ -151,6 +159,33 @@
                             <label for="country_code" class="form-label"> Kode Negara </label>
                             <input type="text" class="form-control" name="country_code" id="country_code"
                                 placeholder="Masukkan Kode Negara" value="{{ old('country_code') }}">
+                        </div> --}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nama" class="form-label"> Nama </label>
+                                    <input type="text" class="form-control" name="nama" id="nama"
+                                        placeholder="Masukkan Nama" value="{{ old('nama') }}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="country_code" class="form-label"> Kode Negara </label>
+                                    <input type="text" class="form-control" name="country_code" id="country_code"
+                                        placeholder="Masukkan Kode Negara">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email" class="form-label"> Email </label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="Masukkan Email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone_number" class="form-label"> Nomor HP </label>
+                                    <input type="number" class="form-control" name="phone_number" id="phone_number"
+                                        placeholder="Masukkan Nomor HP" value="{{ old('phone_number') }}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

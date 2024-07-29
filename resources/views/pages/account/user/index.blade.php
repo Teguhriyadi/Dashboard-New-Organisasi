@@ -45,9 +45,18 @@
                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
                             data-target=".bs-example-modal-lg">
                             <i class="fa fa-plus"></i> Tambah
+                            {{ $detailMembership['total_user'] }} /
+                            {{ $detailMembership['limit_user'] }}
+
+
                         </button>
                         <div class="clearfix"></div>
                     </div>
+                    @if ($detailMembership['total_user'] > $detailMembership['limit_user'])
+                        <p>
+                            Silahkan non-aktifkan user anda, karena telah mencapai limit. Agar Alert button dapat digunakan
+                        </p>
+                    @endif
                     <div class="x_content">
                         <table id="datatable" class="table table-striped table-bordered">
                             <thead>
@@ -112,7 +121,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    @endif
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -145,10 +154,11 @@
                                     <input type="text" class="form-control" name="nama" id="nama"
                                         placeholder="Masukkan Nama" value="{{ old('nama') }}">
                                 </div>
+                                
                                 <div class="form-group">
-                                    <label for="phone_number" class="form-label"> Nomor HP </label>
-                                    <input type="number" class="form-control" name="phone_number" id="phone_number"
-                                        placeholder="Masukkan Nomor HP" value="{{ old('phone_number') }}">
+                                    <label for="country_code" class="form-label"> Kode Negara </label>
+                                    <input type="text" class="form-control" name="country_code" id="country_code"
+                                        placeholder="Masukkan Kode Negara">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -158,17 +168,12 @@
                                         placeholder="Masukkan Email">
                                 </div>
                                 <div class="form-group">
-                                    <label for="country_code" class="form-label"> Kode Negara </label>
-                                    <input type="text" class="form-control" name="country_code" id="country_code"
-                                        placeholder="Masukkan Kode Negara">
+                                    <label for="phone_number" class="form-label"> Nomor HP </label>
+                                    <input type="number" class="form-control" name="phone_number" id="phone_number"
+                                        placeholder="Masukkan Nomor HP" value="{{ old('phone_number') }}">
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="form-group">
-                            <label for="username" class="form-label"> Username </label>
-                            <input type="text" class="form-control" name="username" id="username"
-                                placeholder="Masukkan Username">
-                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-danger">

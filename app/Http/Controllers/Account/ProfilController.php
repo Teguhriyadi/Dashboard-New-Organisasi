@@ -30,11 +30,14 @@ class ProfilController extends Controller
             $currentPaket = $client->get(ApiHelper::apiUrl("/organization/paket/" . session("data")["member_account_code"] . "/current_paket"));
             $responderCurrentPaket = json_decode($currentPaket->getBody(), true);
 
+
+
             DB::commit();
 
             if ($responseProfil["statusCode"] == 200 && $responderCurrentPaket["statusCode"] == 200) {
 
                 $data["detail"] = $responseProfil["data"];
+
                 $data["currentPaket"] = $responderCurrentPaket["data"];
 
                 return view("pages.account.profil.index", $data);
@@ -57,8 +60,10 @@ class ProfilController extends Controller
 
             $data = [
                 "nama" => $request->nama,
-                "country_code" => $request->country_code,
-                "phone_number" => $request->phone_number
+                "email" => $request->email,
+                "nama_pic" => $request->nama_pic,
+                "phone_number_pic" => $request->phone_number_pic,
+                "alamat_organisasi" => $request->alamat_organisasi
             ];
 
             $response = Http::put(ApiHelper::apiUrl("/organization/account/admin/" . $member_account_code . "/update_profile"), $data);
@@ -80,7 +85,7 @@ class ProfilController extends Controller
         }
     }
 
-    public function changePassword(Request $request, $member_account_code)
+    public function changePassword(Request $request, $username)
     {
         try {
 
@@ -95,7 +100,7 @@ class ProfilController extends Controller
                 "new_password" => $request->new_password
             ];
 
-            $response = Http::patch(ApiHelper::apiUrl("/organization/account/admin/" . $member_account_code . "/change_password"), $data);
+            $response = Http::patch(ApiHelper::apiUrl("/organization/account/admin/" . $username . "/change_password"), $data);
 
             DB::commit();
 

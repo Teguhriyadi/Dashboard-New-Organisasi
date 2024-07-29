@@ -79,6 +79,7 @@ class PaketController extends Controller
             $saatIniBody = json_decode($saatIni->getBody(), true);
 
             $data["paketSaatIni"] = $internalBody["data"];
+
             $data["saatIni"] = $saatIniBody["data"];
             $data["code"] = $code;
 
