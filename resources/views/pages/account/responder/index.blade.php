@@ -59,6 +59,7 @@
                                     <th class="text-center">Nomor HP</th>
                                     <th class="text-center">Username</th>
                                     <th class="text-center">Status</th>
+                                    <th class="text-center">Org</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -87,8 +88,9 @@
                                                 </label>
                                             </div>
                                         </td>
+                                        <td class="text-center">{{ $item['detail']['org'] }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('pages.accounts.responder.show', ['username' => $item['detail']['username']])}}"
+                                            <a href="{{ route('pages.accounts.responder.show', ['username' => $item['detail']['username'], 'org' => $item['detail']['org'], 'id_req_contact' => empty($item['detail']['id_request_contact']) ? '0' : $item['detail']['id_request_contact'] ])}}"
                                                 class="btn btn-info btn-sm">
                                                 <i class="fa fa-search"></i> Detail
                                             </a>

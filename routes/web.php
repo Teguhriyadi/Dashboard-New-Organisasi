@@ -81,7 +81,7 @@ Route::group(["middleware" => ["check.session"]], function () {
                 Route::prefix("responder")->group(function () {
                     Route::get("/{member_account_code}", "indexByAdmin")->name("pages.account.responder.index-admin");
                     Route::post("/{member_account_code}", "store")->name("pages.accounts.responder.store");
-                    Route::get("/{username}/show", "show")->name("pages.accounts.responder.show");
+                    Route::get("/{username}/{org}/{id_req_contact}/show", "show")->name("pages.accounts.responder.show");
                     Route::post("/{idUser}/change-status", "changeStatus")->name("pages.accounts.responder.changeStatus");
                     Route::delete("/{idUser}", "destroy")->name("pages.accounts.responder.destroy");
                     Route::put("/{username}", "updateStatus")->name("pages.account.responder.update-status");

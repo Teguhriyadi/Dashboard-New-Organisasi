@@ -1,6 +1,6 @@
 @extends('pages.layouts.main')
 
-@section('title', 'Akun User ' . $detail['detail']['nama'])
+@section('title', 'Akun User')
 
 @section('content-page')
 
@@ -44,9 +44,10 @@
                                 Nama
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
-                                {{ $detail['detail']['nama'] }}
+                                {{ empty($detail['detail']['nama']) ? $detail['detail']['name'] : $detail['detail']['nama'] }}
                             </div>
                         </div>
+                        @if (!empty($detail['detail']['nama']))
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Username
@@ -63,6 +64,7 @@
                                 {{ $detail['detail']['member_account_code'] }}
                             </div>
                         </div>
+                        @endif
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Kode Negara
@@ -84,12 +86,13 @@
                                 Status
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12 text-uppercase">
-                                {{ $detail['detail']['account_status_id'] }}
+                                {{ $org == "partner" ? $detail['detail']['request_status']['status_name'] : $detail['detail']['account_status_id'] }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @if ($org != "partner")
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
@@ -126,6 +129,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 

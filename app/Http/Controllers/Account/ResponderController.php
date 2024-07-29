@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Http\Helper\ApiHelper;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -18,22 +19,23 @@ class ResponderController extends Controller
 
             $data = [];
 
-            $response = Http::get(ApiHelper::apiUrl("/organization/account/responder/" . $member_account_code . "/admin"));
+            $client = new Client([
+                "timeout" => 10
+            ]);
 
-            if ($response->successful()) {
-
-                $responseBody = $response->json();
-              
-                if ($responseBody["statusCode"] == 200) {
-                    $data["responder"] = $responseBody["data"];
-                } else {
-                    return redirect()->route("pages.dashboard")->with("error", $responseBody["message"]);
-                }
-            }
+            $response = $client->get(ApiHelper::apiUrl("/organization/account/responder/" . $member_account_code . "/admin"));
+            $responseBody = json_decode($response->getBody(), true);
 
             DB::commit();
 
-            return view("pages.account.responder.index", $data);
+            if ($responseBody["statusCode"] == 200) {
+
+                $data["responder"] = $responseBody["data"];
+
+                return view("pages.account.responder.index", $data);
+            } else {
+                return redirect()->route("pages.dashboard")->with("error", "Terjadi Kesalahan");
+            }
 
         } catch (\Exception $e) {
 
@@ -76,27 +78,36 @@ class ResponderController extends Controller
         }
     }
 
-    public function show($username)
+    public function show($username, $org, $id_req_contact)
     {
         try {
             DB::beginTransaction();
 
             $data = [];
 
-            $response = Http::get(ApiHelper::apiUrl("/organization/account/responder/" . $username . "/show"));
+            $client = new Client([
+                "timeout" => 10
+            ]);
 
-            if ($response->successful()) {
-
-                $responseBody = $response->json();
-
-                if ($responseBody["statusCode"] == 200) {
-                    $data["detail"] = $responseBody["data"];
-                }
+            if ($org == "partner") {
+                $response = $client->get(ApiHelper::apiUrl("/request_contact/" . $id_req_contact . "/detail"));
+            } else {
+                $response = $client->get(ApiHelper::apiUrl("/organization/account/responder/" . $username . "/show"));
             }
+
+            $responseBody = json_decode($response->getBody(), true);
 
             DB::commit();
 
-            return view("pages.account.responder.detail", $data);
+            if ($responseBody["statusCode"] == 200) {
+                $data["detail"] = $responseBody["data"];
+                $data["org"] = $org;
+
+                return view("pages.account.responder.detail", $data);
+            } else {
+                return redirect()->route("pages.dashboard")->with("error", "Terjadi Kesalahan");
+            }
+
 
         } catch (\Exception $e) {
 
