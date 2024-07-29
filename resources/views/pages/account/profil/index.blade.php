@@ -26,48 +26,6 @@
         @endif
 
         <div class="row">
-            @foreach ($currentPaket as $item)
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_content">
-                            <form
-                                action="{{ route('pages.account.profil.upgradePaket', ['member_account_code' => session('data.member_account_code')]) }}"
-                                method="POST">
-                                @csrf
-                                @method("PUT")
-                                <input type="hidden" name="id_master_paket_organization" id="id_master_paket_organization" value="{{ $item["id_master_paket_organization"] }}">
-                                <center>
-                                    <div class="x_title">
-                                        <h2>
-                                            {{ $item["nama_paket"] == "Video Call" ? "GOLD" : "SILVER" }}
-                                        </h2>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </center>
-                                <p>
-                                    Nama Paket : {{ $item["nama_paket"] }}
-                                    <br>
-                                    Limit User : {{ $item["limit_user"] }}
-                                    <br>
-                                    Limit Kontak : {{ $item["limit_contact"] }}
-                                    <br>
-                                    Harga : Rp. {{ number_format($item["amount"]) }}
-                                    <br>
-                                    Mengikuti : {{ $item["durationDate"] }} Hari
-                                </p>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-success btn-sm btn-block">
-                                        <i class="fa fa-edit"></i> Upgrade Paket
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        <div class="row">
             <div class="col-md-7 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
@@ -82,17 +40,35 @@
                             method="POST">
                             @csrf
                             @method('PUT')
-                            <div class="form-group">
-                                <label for="nama" class="form-label"> Nama </label>
-                                <input type="text" class="form-control" name="nama" id="nama"
-                                    placeholder="Masukkan Nama" value="{{ old('nama', $detail['nama']) }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nama" class="form-label"> Nama Organisasi</label>
+                                        <input type="text" class="form-control" name="nama" id="nama"
+                                            placeholder="Masukkan Nama" value="{{ old('nama', $detail['nama']) }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nama" class="form-label"> Nama PIC</label>
+                                        <input type="text" class="form-control" name="nama_pic" id="nama_pic"
+                                            placeholder="Masukkan Nama PIC" value="{{ old('nama_pic', $detail['nama_pic']) }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="username" class="form-label"> Username </label>
+                                        <input type="username" class="form-control" name="username" id="username"
+                                            placeholder="Masukkan Username"
+                                            value="{{ old('username', $detail['username']) }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username" class="form-label"> Nomor Telepon PIC </label>
+                                        <input type="username" class="form-control" name="phone_number_pic" id="phone_number_pic"
+                                            placeholder="Masukkan Nomor Telepon PIC"
+                                            value="{{ old('phone_number_pic', $detail['phone_number_pic']) }}" readonly>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="username" class="form-label"> Username </label>
-                                <input type="username" class="form-control" name="username" id="username"
-                                    placeholder="Masukkan Username" value="{{ old('username', $detail['username']) }}"
-                                    readonly>
-                            </div>
+
                             <div class="row">
                                 <div class="col-md-6 col-xs-12">
                                     <div class="form-group">
@@ -105,12 +81,16 @@
                                 </div>
                                 <div class="col-md-6 col-xs-12">
                                     <div class="form-group">
-                                        <label for="phone_number" class="form-label"> Nomor HP </label>
-                                        <input type="number" class="form-control" name="phone_number" id="phone_number"
-                                            placeholder="Masukkan Nomor HP"
-                                            value="{{ old('phone_number', $detail['phone_number']) }}">
+                                        <label for="nama" class="form-label"> Nomor Telepon Organisasi</label>
+                                        <input type="text" class="form-control" name="phone_number" id="phone_number" readonly
+                                            placeholder="Masukkan Nama" value="{{ old('phone_number', $detail['phone_number']) }}">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nama" class="form-label"> Alamat Organisasi</label>
+                                <input type="text" class="form-control" name="alamat_organisasi" id="alamat_organisasi"
+                                    placeholder="Masukkan Nama" value="{{ old('alamat_organisasi', $detail['alamat_organisasi']) }}">
                             </div>
                             <hr>
                             <div class="form-group">
@@ -135,7 +115,7 @@
                     </div>
                     <div class="x_content">
                         <form
-                            action="{{ route('pages.account.profil.change-password', ['member_acccount_code' => session('data.member_account_code')]) }}"
+                            action="{{ route('pages.account.profil.change-password', ['member_acccount_code' => session('data.username')]) }}"
                             method="POST">
                             @csrf
                             @method('PATCH')
@@ -151,8 +131,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="confirm_password" class="form-label"> Konfirmasi Password </label>
-                                <input type="password" class="form-control" name="confirm_password" id="confirm_password"
-                                    placeholder="Masukkan Konfirmasi Password">
+                                <input type="password" class="form-control" name="confirm_password"
+                                    id="confirm_password" placeholder="Masukkan Konfirmasi Password">
                             </div>
                             <hr>
                             <div class="form-group">

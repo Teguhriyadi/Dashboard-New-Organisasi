@@ -1,11 +1,11 @@
 <div class="modal-body">
     <center>
-        <div class="x_title">
+        {{-- <div class="x_title">
             <h2>
                 {{ $paketSaatIni['nama_paket'] }}
             </h2>
             <div class="clearfix"></div>
-        </div>
+        </div> --}}
     </center>
     <div class="row">
         <div class="col-md-6">
@@ -33,8 +33,8 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="limitKontak" class="form-label"> Limit Kontak </label>
-        <input type="text" class="form-control" id="limitKontak" name=""
+        <label for="limitKontak" class="form-label"> Kontak Saat Ini </label>
+        <input type="text" class="form-control" id="limitKontak" name="" readonly
             value="{{ $paketSaatIni['limit_contact'] }}">
     </div>
 
@@ -60,12 +60,16 @@
         <label class="form-label"> Total Harga </label>
         <input type="text" id="total-harga" class="form-control" value="Rp 0" readonly>
     </div>
+    <small class="text-danger fw-bold">
+        Catatan : Dengan membeli paket baru, sisa masa aktif paket yang sebelumnya akan hangus
+    </small>
 </div>
 <div class="modal-footer">
     <button class="btn btn-success text-uppercase btn-block" id="btn-pembayaran">
         <i class="fa fa-edit" style="margin-right: 5px"></i> Lanjutkan Pembayaran
     </button>
 </div>
+
 
 <script type="text/javascript">
     function formatRupiah(amount) {

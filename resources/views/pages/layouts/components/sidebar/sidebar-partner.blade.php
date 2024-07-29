@@ -31,12 +31,23 @@
             @if (session('data')['account_category'] == 'PARTNER')
                 <li>
                     <a>
-                        <i class="fa fa-money"></i> Data Penjualan TAB
+                        <i class="fa fa-money"></i> Transaksi
                         <span class="fa fa-chevron-down"></span>
                     </a>
                     <ul class="nav child_menu">
                         <li>
                             <a href="{{ route('pages.transaction.history-payment.index') }}"> Riwayat </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-money"></i> Responder
+                        <span class="fa fa-chevron-down"></span>
+                    </a>
+                    <ul class="nav child_menu">
+                        <li>
+                            <a href="{{ route('pages.transaction.history-payment.index') }}"> Akun </a>
                         </li>
                     </ul>
                 </li>

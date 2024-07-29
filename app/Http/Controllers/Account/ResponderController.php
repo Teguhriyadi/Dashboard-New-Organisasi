@@ -19,13 +19,17 @@ class ResponderController extends Controller
             $data = [];
 
             $response = Http::get(ApiHelper::apiUrl("/organization/account/responder/" . $member_account_code . "/admin"));
+            $detailAdmin = Http::timeout(10)->get(ApiHelper::apiUrl("/organization/account/admin/" . session("data")["username"] . "/show"));
 
             if ($response->successful()) {
 
                 $responseBody = $response->json();
+                $detailsAdmin = $detailAdmin->json();
               
                 if ($responseBody["statusCode"] == 200) {
                     $data["responder"] = $responseBody["data"];
+                    $data['detailMembership'] = $detailsAdmin['data']['detailMembership'];
+
                 } else {
                     return redirect()->route("pages.dashboard")->with("error", $responseBody["message"]);
                 }

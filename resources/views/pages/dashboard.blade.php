@@ -108,7 +108,7 @@
                                 @if ($showDetail['detailMembership']['remainingDate'] >= 7)
                                     <a href="{{ route('pages.master.paket.index') }}"
                                         class="btn btn-primary btn-sm pull-right">
-                                        Perpanjang
+                                        Beli Paket Baru
                                     </a>
                                 @else
                                     <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal"
