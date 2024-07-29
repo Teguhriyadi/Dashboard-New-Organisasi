@@ -24,7 +24,7 @@ class ResponderController extends Controller
             ]);
 
             $response = $client->get(ApiHelper::apiUrl("/organization/account/responder/" . $member_account_code . "/admin"));
-            $detailAdmin = Http::timeout(10)->get(ApiHelper::apiUrl("/organization/account/admin/" . session("data")["username"] . "/show"));
+            $detailAdmin = $client->get(ApiHelper::apiUrl("/organization/account/admin/" . session("data")["username"] . "/show"));
 
             $responseBody = json_decode($response->getBody(), true);
             $responseAdmin = json_decode($detailAdmin->getBody(), true);
