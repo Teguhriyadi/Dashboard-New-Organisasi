@@ -83,6 +83,8 @@ class PaketController extends Controller
             $data["saatIni"] = $saatIniBody["data"];
             $data["code"] = $code;
 
+            $data["detail"] = $id_detail;
+
             DB::commit();
 
             return view("pages.master.paket.detail", $data);

@@ -36,7 +36,7 @@
                     </a>
                     <ul class="nav child_menu">
                         <li>
-                            <a href="{{ route('pages.transaction.history-payment.index') }}"> Riwayat </a>
+                            <a href="{{ route('pages.transaction.history-payment-partner.index') }}"> Riwayat </a>
                         </li>
                     </ul>
                 </li>
