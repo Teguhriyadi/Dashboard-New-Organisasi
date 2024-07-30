@@ -25,17 +25,16 @@ class PartnerController extends Controller
 
             if ($name == "POLRES") {
                 $params = session("data")["province_id"];
-            } else if ($name == "POLSEK") {
+            } else if ($name == "POLSEK" ) {
                 $params = session("data")["regency_id"];
-            } else if ($name === "KODIM") {
+            } else if ($name == "KODIM") {
                 $params = session("data")["province_id"];
-            } else if ($name === "KORAMIL") {
+            } else if ($name == "KORAMIL") {
                 $params = session("data")["regency_id"];
             }
 
             $responder = $client->get(ApiHelper::apiUrl("/region/" . session("data")["sub_category_organization_id"]["name"] . "/institution/regencies/" . $params));
             $response = json_decode($responder->getBody(), true);
-            
 
             $data["keamanan"] = $response["data"];
 
@@ -199,21 +198,23 @@ class PartnerController extends Controller
                 ApiHelper::apiUrl("/region/" . $name . "/institution/districts/" . $regency_id)
             );
 
+            $responsePolsek = $client->post(ApiHelper::apiUrl("/organization/partner/" . $name . "/org/" . $province_id . "/" . $regency_id));
+
             $responseBody = json_decode($response->getBody(), true);
+            $responseBodyPolsek = json_decode($responsePolsek->getBody(), true);
 
             $data["name"] = $name;
 
             DB::commit();
 
-            $data["detail"] = $responseBody["data"];
+            if ($responseBodyPolsek["statusCode"] == 200) {
+
+                $data["detail"] = $responseBody["data"];
+                $data["datapolsek"] = $responseBodyPolsek["data"];
+
+            }
 
             return view("pages.account.partner.lihat-polsek", $data);
-
-            // if ($responseBody["statusCode"] == 200) {
-
-            // } else {
-            //     return redirect()->route("pages.dashboard")->with("error", $responseBody["message"]);
-            // }
 
         } catch (\Exception $e) {
 

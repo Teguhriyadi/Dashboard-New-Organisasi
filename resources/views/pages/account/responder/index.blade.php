@@ -49,7 +49,7 @@
                             {{ $detailMembership['limit_contact'] }}
                         </button>
                         <div class="clearfix"></div>
-                        
+
                     </div>
                     @if ($detailMembership['total_responder'] > $detailMembership['limit_contact'])
                         <p>
@@ -63,7 +63,6 @@
                                     <th class="text-center">No</th>
                                     <th>Nama</th>
                                     <th class="text-center">Kode Akun Member</th>
-                                    <th class="text-center">Kode Negara</th>
                                     <th class="text-center">Nomor HP</th>
                                     <th class="text-center">Username</th>
                                     <th class="text-center">Status</th>
@@ -80,7 +79,6 @@
                                         <td class="text-center">{{ ++$nomer }}.</td>
                                         <td>{{ $item['detail']['nama'] }}</td>
                                         <td class="text-center">{{ $item['detail']['member_account_code'] }}</td>
-                                        <td class="text-center">{{ $item['detail']['country_code'] }}</td>
                                         <td class="text-center">{{ $item['detail']['phone_number'] }}</td>
                                         <td class="text-center">
                                             {{ empty($item['detail']['username']) ? '-' : $item['detail']['username'] }}
@@ -89,7 +87,7 @@
                                             <div class="custom-control custom-switch">
                                                 <input {{ $item['detail']['account_status_id'] == "active" ? 'checked' : '' }} type="checkbox" class="custom-control-input js-switch"
                                                     id="customSwitch{{ $item['detail']['id_responder_organization'] }}"
-                                                    data-id="{{ $item['detail']['id_responder_organization'] }}">
+                                                    data-id="{{ empty($item['detail']['id_request_contact']) ? $item['detail']['id_responder_organization'] : $item['detail']['id_request_contact'] }}" data-tipe="{{ $item['detail']['org'] }}">
                                                 <label class="custom-control-label text-uppercase"
                                                     for="customSwitch{{ $item['detail']['id_responder_organization'] }}">
                                                     {{ $item['detail']['account_status_id'] }}
@@ -103,7 +101,7 @@
                                                 <i class="fa fa-search"></i> Detail
                                             </a>
                                             <form
-                                                action="{{ route('pages.accounts.responder.destroy', ['idUser' => $item['detail']['id_responder_organization']]) }}"
+                                                action="{{ route('pages.accounts.responder.destroy', ['idUser' => empty($item['detail']['id_request_contact']) ? $item['detail']['id_responder_organization'] : $item['detail']['id_request_contact'], 'org' => $item['detail']['org']]) }}"
                                                 method="POST" style="display: inline">
                                                 @csrf
                                                 @method('DELETE')
@@ -161,31 +159,43 @@
                                 placeholder="Masukkan Kode Negara" value="{{ old('country_code') }}">
                         </div> --}}
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-2">
                                 <div class="form-group">
                                     <label for="nama" class="form-label"> Nama </label>
                                     <input type="text" class="form-control" name="nama" id="nama"
                                         placeholder="Masukkan Nama" value="{{ old('nama') }}">
                                 </div>
-                                
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="country_code" class="form-label"> Kode Negara </label>
                                     <input type="text" class="form-control" name="country_code" id="country_code"
                                         placeholder="Masukkan Kode Negara">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
                                 <div class="form-group">
                                     <label for="email" class="form-label"> Email </label>
                                     <input type="email" class="form-control" name="email" id="email"
                                         placeholder="Masukkan Email">
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone_number" class="form-label"> Nomor HP </label>
                                     <input type="number" class="form-control" name="phone_number" id="phone_number"
                                         placeholder="Masukkan Nomor HP" value="{{ old('phone_number') }}">
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="unique_responder_id" class="form-label"> Kode Referensi (Opsional) </label>
+                            <input type="text" class="form-control" name="unique_responder_id" id="unique_responder_id" placeholder="Masukkan Kode Referensi">
+                            <small class="text-danger">
+                                *Catatan : Tidak Perlu Mengisi Kolom Yang Lain, Jika Memiliki Kode Referensi
+                            </small>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -246,13 +256,15 @@
                 checkbox.addEventListener("change", function() {
                     let checked = checkbox.checked;
                     let idUser = checkbox.getAttribute('data-id');
+                    let cekData = checkbox.getAttribute("data-tipe");
 
                     $.ajax({
                         url: "{{ url('/pages/account/responder') }}" + "/" + idUser +
                             "/change-status",
                         type: "POST",
                         data: {
-                            checked: checked
+                            checked: checked,
+                            tipe: cekData
                         },
                         success: function(response) {
                             if (response.status == true) {

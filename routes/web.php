@@ -11,6 +11,7 @@ use App\Http\Controllers\Authorization\LupaPasswordController;
 use App\Http\Controllers\Master\PaketController;
 use App\Http\Controllers\Pengaturan\RoleController;
 use App\Http\Controllers\Report\PanicController;
+use App\Http\Controllers\Responder\AkunController;
 use App\Http\Controllers\Transaksi\HistoryPaymentController;
 use App\Http\Controllers\Transaksi\HistoryPaymentPartnerController;
 use App\Http\Controllers\Transaksi\PaymentController;
@@ -84,7 +85,7 @@ Route::group(["middleware" => ["check.session"]], function () {
                     Route::post("/{member_account_code}", "store")->name("pages.accounts.responder.store");
                     Route::get("/{username}/{org}/{id_req_contact}/show", "show")->name("pages.accounts.responder.show");
                     Route::post("/{idUser}/change-status", "changeStatus")->name("pages.accounts.responder.changeStatus");
-                    Route::delete("/{idUser}", "destroy")->name("pages.accounts.responder.destroy");
+                    Route::delete("/{idUser}/{org}", "destroy")->name("pages.accounts.responder.destroy");
                     Route::put("/{username}", "updateStatus")->name("pages.account.responder.update-status");
                 });
             });
@@ -146,6 +147,12 @@ Route::group(["middleware" => ["check.session"]], function () {
                     Route::get("/{id}/edit", "edit")->name("pages.pengaturan.role.edit");
                     Route::delete("/{id}", "destroy")->name("pages.pengaturan.role.destroy");
                 });
+            });
+        });
+
+        Route::prefix("responder")->group(function() {
+            Route::prefix("akun")->group(function() {
+                Route::get("/", [AkunController::class, "index"])->name("pages.responder.akun.index");
             });
         });
     });

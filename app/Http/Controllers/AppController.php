@@ -199,6 +199,11 @@ class AppController extends Controller
             $partner = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction/umum"));
 
             $internalBody = json_decode($internal->getBody(), true);
+
+            if (session('data')['account_category'] == 'INTERNAL') {
+                session(["internal" => $internalBody["data"]]);
+            }
+
             $responderBody = json_decode($responder->getBody(), true);
             $userBody = json_decode($user->getBody(), true);
             $partnerBody = json_decode($partner->getBody(), true);

@@ -63,21 +63,21 @@
                                 @php
                                     $nomer = 0;
                                 @endphp
-                                {{-- @foreach ($detail as $item)
+                                @foreach ($datapolsek as $item)
                                 <tr>
                                     <td class="text-center">{{ ++$nomer }}.</td>
-                                    <td class="text-center">{{ $item["institution_id"] }}</td>
+                                    {{-- <td class="text-center">{{ $item["institution_id"] }}</td>
                                     <td>{{ $item["nama"] }}</td>
                                     <td class="text-center">{{ $item['phone_number'] }}</td>
                                     <td class="text-center">{{ $item['total_responder'] }}</td>
                                     <td class="text-center">{{ $item["unique_institution_id"] }}</td>
-                                    <td class="text-center"> --}}
-                                        {{-- <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => 1, 'province_id' => session("data")["province_id"], "regency_id" => session("data")["regency_id"]]) }}" class="btn btn-success btn-sm">
+                                    <td class="text-center">
+                                        <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => 1, 'province_id' => session("data")["province_id"], "regency_id" => session("data")["regency_id"]]) }}" class="btn btn-success btn-sm">
                                             <i class="fa fa-search"></i> Detail
-                                        </a> --}}
-                                    {{-- </td>
+                                        </a>
+                                    </td> --}}
                                 </tr>
-                                @endforeach --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -47,7 +47,7 @@
                     </a>
                     <ul class="nav child_menu">
                         <li>
-                            <a href="{{ route('pages.transaction.history-payment.index') }}"> Akun </a>
+                            <a href="{{ route('pages.responder.akun.index') }}"> Akun </a>
                         </li>
                     </ul>
                 </li>

@@ -59,7 +59,8 @@ class ResponderController extends Controller
                 "nama" => $request->nama,
                 "country_code" => $request->country_code,
                 "phone_number" => $request->phone_number,
-                "email" => $request->email
+                "email" => $request->email,
+                "unique_responder_id" => $request->unique_responder_id
             ];
 
             $response = Http::post(ApiHelper::apiUrl("/organization/account/admin/" . $member_account_code . "/create_responder"), $data);
@@ -92,7 +93,7 @@ class ResponderController extends Controller
             $client = new Client([
                 "timeout" => 10
             ]);
-            
+
 
             if ($org == "partner") {
                 $response = $client->get(ApiHelper::apiUrl("/request_contact/" . $id_req_contact . "/detail"));
@@ -122,17 +123,25 @@ class ResponderController extends Controller
         }
     }
 
-    public function destroy($idUser)
+    public function destroy($idUser, $org)
     {
         try {
 
             DB::beginTransaction();
 
-            $response = Http::timeout(10)->delete(ApiHelper::apiUrl("/organization/account/responder/" . $idUser . "/delete/admin"));
+            $client = new Client([
+                "timeout" => 10
+            ]);
+
+            if ($org == "self") {
+                $response = $client->delete(ApiHelper::apiUrl("/organization/account/responder/" . $idUser . "/delete/admin"));
+            } else if ($org == "partner") {
+                $response = $client->delete(ApiHelper::apiUrl("/request_contact/delete/" . $idUser . "/request"));
+            }
+
+            $responseBody = json_decode($response->getBody(), true);
 
             DB::commit();
-
-            $responseBody = $response->json();
 
             if ($responseBody["statusCode"] == 200) {
                 return back()->with("success", "Data Berhasil di Hapus");
@@ -154,7 +163,34 @@ class ResponderController extends Controller
 
             DB::beginTransaction();
 
-            $response = Http::timeout(10)->put(ApiHelper::apiUrl("/organization/account/responder/" . $idUser . "/put/account_status"));
+
+            $data = [];
+
+            $client = new Client([
+                "timeout" => 10
+            ]);
+
+            if ($request->tipe == "self") {
+                $responseData = $client->put(
+                    ApiHelper::apiUrl("/organization/account/responder/" . $idUser . "/put/account_status"),
+                    [
+                        'headers' => [
+                            'Content-Type' => 'application/json'
+                        ]
+                    ]
+                );
+            } else if ($request->tipe == "partner") {
+                $responseData = $client->put(
+                    ApiHelper::apiUrl("/request_contact/". $idUser ."/put/status_responder"),
+                    [
+                        'headers' => [
+                            'Content-Type' => 'application/json'
+                        ]
+                    ]
+                );
+            }
+
+            $response = json_decode($responseData->getBody(), true);
 
             DB::commit();
 

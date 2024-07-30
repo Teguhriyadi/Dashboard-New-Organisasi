@@ -9,8 +9,9 @@
             </li>
             @if (session('data')['account_category'] == 'INTERNAL')
                 {{-- @if ($showDetail['detailMembership']['remainingDate'] <= 7)
-                
+
                 @endif --}}
+                @if (session("internal")["detailMembership"]["remainingDate"] < 7)
                 <li>
                     <a>
                         <i class="fa fa-book"></i> Master
@@ -19,6 +20,18 @@
                     <ul class="nav child_menu">
                         <li>
                             <a href="{{ route('pages.master.paket.index') }}"> Paket </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+                <li>
+                    <a>
+                        <i class="fa fa-money"></i> Transaksi
+                        <span class="fa fa-chevron-down"></span>
+                    </a>
+                    <ul class="nav child_menu">
+                        <li>
+                            <a href="{{ route('pages.transaction.history-payment.index') }}"> Riwayat Pembayaran </a>
                         </li>
                     </ul>
                 </li>

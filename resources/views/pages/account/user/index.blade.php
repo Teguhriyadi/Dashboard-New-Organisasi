@@ -91,6 +91,25 @@
                                                 {{ empty($item['detail']['username']) ? '-' : $item['detail']['username'] }}
                                             </td>
                                             <td class="text-center">
+                                                @if ($detailMembership['total_user'] == $detailMembership['limit_user'])
+                                                    @if ($item["detail"]['account_status_id'] == "active")
+                                                    <div class="custom-control custom-switch">
+                                                        <input
+                                                            {{ $item['detail']['account_status_id'] == 'active' ? 'checked' : '' }}
+                                                            type="checkbox" class="custom-control-input js-switch"
+                                                            id="customSwitch{{ $item['detail']['id_user_organization'] }}"
+                                                            data-id="{{ $item['detail']['id_user_organization'] }}">
+                                                        <label class="custom-control-label text-uppercase"
+                                                            for="customSwitch{{ $item['detail']['id_user_organization'] }}">
+                                                            {{ $item['detail']['account_status_id'] }}
+                                                        </label>
+                                                    </div>
+                                                    @else
+                                                        <span class="fw-bold">
+                                                            Kuota Sudah Terpenuhi
+                                                        </span>
+                                                    @endif
+                                                @else
                                                 <div class="custom-control custom-switch">
                                                     <input
                                                         {{ $item['detail']['account_status_id'] == 'active' ? 'checked' : '' }}
@@ -102,6 +121,7 @@
                                                         {{ $item['detail']['account_status_id'] }}
                                                     </label>
                                                 </div>
+                                                @endif
                                             </td>
                                             <td class="text-center">
                                                 <a href="{{ route('pages.accounts.user.show', ['idUser' => $item['detail']['username']]) }}"
@@ -154,7 +174,7 @@
                                     <input type="text" class="form-control" name="nama" id="nama"
                                         placeholder="Masukkan Nama" value="{{ old('nama') }}">
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="country_code" class="form-label"> Kode Negara </label>
                                     <input type="text" class="form-control" name="country_code" id="country_code"

@@ -125,7 +125,7 @@
                                     Nama Paket
                                 </div>
                                 <div class="col-md-5">
-                                    {{ $showDetail['detailMembership']['nama_paket'] }}
+                                    {{ $showDetail['detailMembership']['nama_paket'] == "Custom" ? "Voice Call" : $showDetail['detailMembership']['nama_paket'] }}
                                 </div>
                             </div>
                             <div class="row">
@@ -218,7 +218,7 @@
                             Catatan : Masa aktif user menyesuaikan sisa waktu paket (
                                 {{ $showDetail['detailMembership']['remainingDate'] }} Hari
                             )
-                            
+
                         </small>
                     </div>
                     <div class="modal-footer">
