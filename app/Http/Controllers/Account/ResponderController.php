@@ -92,6 +92,7 @@ class ResponderController extends Controller
             $client = new Client([
                 "timeout" => 10
             ]);
+            
 
             if ($org == "partner") {
                 $response = $client->get(ApiHelper::apiUrl("/request_contact/" . $id_req_contact . "/detail"));

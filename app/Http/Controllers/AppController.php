@@ -30,8 +30,6 @@ class AppController extends Controller
                 "member_account_code" => $request->member_account_code
             ];
 
-            dd($data);
-
             if ($data["code"] == "001") {
                 $url = "/organization/payment/check_price_pendidikan";
                 $code = [
@@ -113,7 +111,6 @@ class AppController extends Controller
                 "message" => "Data Berhasil di Tampilkan",
                 "data" => $responseBody["extendsPaket"]
             ]);
-
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -143,7 +140,6 @@ class AppController extends Controller
                     "member_account_code" => $request->member_account_code,
                     "limit_user" => intval($request->limituser)
                 ];
-
             } else {
                 $apiUrl = "/organization/payment/check_price_komersil";
 
@@ -174,7 +170,6 @@ class AppController extends Controller
                 "message" => "Data Berhasil di Tampilkan",
                 "data" => $request->code == "1" || $request->code == "2" || $request->code == "3" ? $responseBody["data"] : $responseBody["extendsPaket"]
             ]);
-
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -208,7 +203,6 @@ class AppController extends Controller
             $userBody = json_decode($user->getBody(), true);
             $partnerBody = json_decode($partner->getBody(), true);
 
-            // dd($internalBody);
             DB::commit();
 
             if ($responderBody["statusCode"] == 200 && $userBody["statusCode"] == 200 && $internalBody["statusCode"] == 200) {

@@ -141,33 +141,6 @@
         }
 
         $("#masa_aktif_paket").on('change', function() {
-            // let limituser = $("#limit-user").val();
-            // let durationDate = $("#masa_aktif_paket").val();
-            // let code = @json($code);
-            // let member_account_code = @json(session('data')['member_account_code']);
-
-            // $.ajax({
-            //     url: "{{ url('/check-price-komersil') }}",
-            //     type: "POST",
-            //     data: {
-            //         code: code,
-            //         limit_user: limituser,
-            //         member_account_code: member_account_code,
-            //         durationDate: durationDate,
-            //         _token: "{{ csrf_token() }}"
-            //     },
-            //     success: function(response) {
-            //         if (response.status == true) {
-            //             let formattedAmount = formatRupiah(response.data.amount);
-            //             $("#total-harga").val(formattedAmount);
-            //         } else if (response.status == false) {
-            //             console.log(response.message);
-            //         }
-            //     },
-            //     error: function(error) {
-            //         console.log(error);
-            //     }
-            // });
             checkPricePaket();
         });
 
@@ -206,13 +179,17 @@
             let duration_date = durasi;
             let hargaAmount = harga.replace('Rp ', '').replace(/\./g, '');
 
+            let limituser = parseInt($("#limit-user").val()) || 0;
+            let tambahUser = parseInt($("#tambah-user").val()) || 0;
+            let totalUser = limituser + tambahUser;
+
             $.ajax({
                 url: "{{ url('/pages/master/paket/store') }}",
                 type: "POST",
                 data: {
                     idMasterPaket: id_master,
                     amount: hargaAmount,
-                    limit_user: limit_user,
+                    limit_user: totalUser,
                     limit_contact: limit_contact,
                     end_date: duration_date,
                     _token: "{{ csrf_token() }}"

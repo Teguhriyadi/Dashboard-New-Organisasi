@@ -44,7 +44,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th class="text-center">External ID</th>
+                                    <th class="text-center">Invoice ID</th>
                                     <th>Nama Paket</th>
                                     <th class="text-center">Tanggal</th>
                                     <th class="text-center">Harga</th>
