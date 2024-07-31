@@ -72,14 +72,16 @@
                                     <td class="text-center">{{ $item['total_responder'] }}</td>
                                     <td class="text-center">{{ $item["unique_institution_id"] }}</td>
                                     <td class="text-center">
+                                        @if ($item['total_responder'] != 0)
                                         <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-info btn-sm">
                                             <i class="fa fa-search"></i> Lihat Responder
                                         </a>
+                                        @endif
                                         <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-search"></i> Lihat Transaksi
                                         </a>
                                         @if ($dataname == "KODIM")
-                                        <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => session("data")["sub_category_organization_id"]["name"], 'province_id' => $item['province_id'], "regency_id" => $item['regency_id']]) }}" class="btn btn-success btn-sm">
+                                        <a href="{{ route('pages.account.partner.lihat-kodim', ['name' => session("data")["sub_category_organization_id"]["name"], 'province_id' => $item['province_id'], "regency_id" => $item['regency_id']]) }}" class="btn btn-success btn-sm">
                                             <i class="fa fa-search"></i> Detail
                                         </a>
                                         @else

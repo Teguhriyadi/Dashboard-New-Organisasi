@@ -1,6 +1,6 @@
 @extends('pages.layouts.main')
 
-@section('title', 'Akun Responder')
+@section('title', 'Akun Responder ' . session('data')['nama'])
 
 @section("component-css")
 <link href="{{ URL::asset('template') }}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -33,12 +33,12 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                    <div class="x_title">
+                    {{-- <div class="x_title">
                         <h2>
                             Data @yield('title')
                         </h2>
                         <div class="clearfix"></div>
-                    </div>
+                    </div> --}}
                     <div class="x_content">
                         <table id="datatable" class="table table-striped table-bordered">
                             <thead>

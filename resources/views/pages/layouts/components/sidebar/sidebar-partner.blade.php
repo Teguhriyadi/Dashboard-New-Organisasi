@@ -60,9 +60,15 @@
                 <ul class="nav child_menu">
                     @foreach ($listmenu as $item)
                         <li>
+                            @if ($item['menu'] == "KORAMIL" || $item['menu'] == "POLSEK")
+                            <a href="{{ route('pages.account.partner.lihat-kodim', ['name' => session("data")['sub_category_organization_id']['name'], 'province_id' => session("data")['province_id'], 'regency_id' => session("data")['regency_id']]) }}">
+                                {{ $item['menu'] }}
+                            </a>
+                            @else
                             <a href="{{ route('pages.accounts.partner.index', ['name' => $item['menu']]) }}">
                                 {{ $item['menu'] }}
                             </a>
+                            @endif
                         </li>
                     @endforeach
                 </ul>

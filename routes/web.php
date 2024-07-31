@@ -62,7 +62,7 @@ Route::group(["middleware" => ["check.session"]], function () {
                 Route::controller(PartnerController::class)->group(function () {
                     Route::get("/{name}", "index")->name("pages.accounts.partner.index");
                     Route::get("/{name}/lihat-polsek/{province_id}/{regency_id}", "lihatPolsek")->name("pages.account.partner.lihat-polsek");
-                    Route::get("/{name}/lihat-kodim/{province_id}/{regency_id}", "lihatKodim")->name("pages.account.partner.lihat-polsek");
+                    Route::get("/{name}/lihat-kodim/{province_id}/{regency_id}", "lihatKodim")->name("pages.account.partner.lihat-kodim");
                     Route::get("/{name}/lihat-responder/{institution_id}", "lihat_responder")->name("pages.account.partner.lihat-responder");
                     Route::get("/{name}/lihat-transaksi/{institution_id}", "lihat_transaksi")->name("pages.account.partner.lihat-transaksi");
                     Route::post("/{name}", "store")->name("pages.accounts.partner.store");
