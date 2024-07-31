@@ -56,7 +56,7 @@
                                     <th class="text-center">Nomor HP</th>
                                     <th class="text-center">Total Responder</th>
                                     <th class="text-center">ID Unique Institution</th>
-                                    <th class="text-center">Aksi</th>
+                                    {{-- <th class="text-center">Aksi</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,12 +66,12 @@
                                 @foreach ($datapolsek as $item)
                                 <tr>
                                     <td class="text-center">{{ ++$nomer }}.</td>
-                                    {{-- <td class="text-center">{{ $item["institution_id"] }}</td>
+                                    <td class="text-center">{{ $item["institution_id"] }}</td>
                                     <td>{{ $item["nama"] }}</td>
                                     <td class="text-center">{{ $item['phone_number'] }}</td>
                                     <td class="text-center">{{ $item['total_responder'] }}</td>
                                     <td class="text-center">{{ $item["unique_institution_id"] }}</td>
-                                    <td class="text-center">
+                                    {{-- <td class="text-center">
                                         <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => 1, 'province_id' => session("data")["province_id"], "regency_id" => session("data")["regency_id"]]) }}" class="btn btn-success btn-sm">
                                             <i class="fa fa-search"></i> Detail
                                         </a>
@@ -98,8 +98,7 @@
                         <i class="fa fa-plus"></i> Tambah Data
                     </h4>
                 </div>
-                <form action="{{ route('pages.accounts.partner.store', ['name' => $name]) }}" method="POST">
-                    @csrf
+                <form action="{{ route('pages.accounts.partner.store', ['name' => $name === 'POLRI' ? 'POLSEK' : ($name === 'TNI' ? 'KORAMIL' : $name)]) }}" method="POST">                    @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-2">

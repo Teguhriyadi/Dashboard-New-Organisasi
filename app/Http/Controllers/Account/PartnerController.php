@@ -66,7 +66,6 @@ class PartnerController extends Controller
         try {
 
             DB::beginTransaction();
-
             if ($name == "POLRES") {
                 list($id, $datapolsek, $itemname) = explode("|", $request->regency_id);
                 $nama = $itemname;
@@ -86,6 +85,7 @@ class PartnerController extends Controller
                 "regency_id" => $name == "POLRES" ? $id : $regency_id,
                 "district_id" => $name == "POLRES" ? null : $id
             ];
+            
 
             $client = new Client([
                 "timeout" => 10
@@ -202,6 +202,7 @@ class PartnerController extends Controller
 
             $responseBody = json_decode($response->getBody(), true);
             $responseBodyPolsek = json_decode($responsePolsek->getBody(), true);
+
 
             $data["name"] = $name;
 
