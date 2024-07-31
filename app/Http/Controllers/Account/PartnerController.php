@@ -61,6 +61,80 @@ class PartnerController extends Controller
         }
     }
 
+    public function lihat_responder($name, $insitusi_id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $data = [];
+
+            $client = new Client([
+                "timeout" => 10
+            ]);
+
+            $response = $client->post(ApiHelper::apiUrl("/organization/partner/" . $insitusi_id  . "/responder"));
+            $responseBody = json_decode($response->getBody(), true);
+
+            DB::commit();
+
+            if ($responseBody["statusCode"] == 200) {
+
+                $data["response"] = $responseBody["data"];
+
+                return view("pages.account.partner.responder.index", $data);
+            } else {
+                return redirect()->route("pages.dashboard")->with("error", $responseBody["message"]);
+            }
+
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->route("error", $e->getMessage());
+        }
+    }
+
+    public function lihat_transaksi($name, $insitusi_id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $data = [];
+
+            $client = new Client([
+                "timeout" => 10
+            ]);
+
+            $response = $client->post(ApiHelper::apiUrl("/organization/partner/" . $insitusi_id . "/transaction/umum"));
+            $responseBodyUmum = json_decode($response->getBody(), true);
+
+            $resOrganisasi = $client->post(ApiHelper::apiUrl("/organization/partner/" . $insitusi_id . "/transaction"));
+            $responseBodyOrganisasi = json_decode($resOrganisasi->getBody(), true);
+
+            DB::commit();
+
+            if ($responseBodyUmum["statusCode"] == 200 && $responseBodyOrganisasi["statusCode"] == 200) {
+
+                $data["name"] = $name;
+                $data["umum"] = $responseBodyUmum["data"];
+                $data["organisasi"] = $responseBodyOrganisasi["data"];
+
+                return view("pages.account.partner.transaksi.index", $data);
+            } else {
+                return redirect()->route("pages.dashboard")->with("error", "Terjadi Kesalahan");
+            }
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->route("pages.dashboard")->with("error", $e->getMessage());
+        }
+    }
+
     public function store(Request $request, $name)
     {
         try {
