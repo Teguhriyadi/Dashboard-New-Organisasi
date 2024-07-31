@@ -1,6 +1,6 @@
 @extends('pages.layouts.main')
 
-@section('title', 'Akun ' . $dataname)
+@section('title', 'Detail Akun KORAMIL')
 
 @section("component-css")
 <link href="{{ URL::asset('template') }}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>
-                            Data @yield('title')
+                            Data KORAMIL
                         </h2>
                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
                             data-target=".bs-example-modal-lg">
@@ -56,14 +56,14 @@
                                     <th class="text-center">Nomor HP</th>
                                     <th class="text-center">Total Responder</th>
                                     <th class="text-center">ID Unique Institution</th>
-                                    <th class="text-center">Aksi</th>
+                                    {{-- <th class="text-center">Aksi</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                     $nomer = 0;
                                 @endphp
-                                @foreach ($response as $item)
+                                @foreach ($datapolsek as $item)
                                 <tr>
                                     <td class="text-center">{{ ++$nomer }}.</td>
                                     <td class="text-center">{{ $item["institution_id"] }}</td>
@@ -71,23 +71,11 @@
                                     <td class="text-center">{{ $item['phone_number'] }}</td>
                                     <td class="text-center">{{ $item['total_responder'] }}</td>
                                     <td class="text-center">{{ $item["unique_institution_id"] }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-info btn-sm">
-                                            <i class="fa fa-search"></i> Lihat Responder
-                                        </a>
-                                        <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-search"></i> Lihat Transaksi
-                                        </a>
-                                        @if ($dataname == "KODIM")
-                                        <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => session("data")["sub_category_organization_id"]["name"], 'province_id' => $item['province_id'], "regency_id" => $item['regency_id']]) }}" class="btn btn-success btn-sm">
+                                    {{-- <td class="text-center">
+                                        <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => 1, 'province_id' => session("data")["province_id"], "regency_id" => session("data")["regency_id"]]) }}" class="btn btn-success btn-sm">
                                             <i class="fa fa-search"></i> Detail
                                         </a>
-                                        @else
-                                        <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => session("data")["sub_category_organization_id"]["name"], 'province_id' => $item['province_id'], "regency_id" => $item['regency_id']]) }}" class="btn btn-success btn-sm">
-                                            <i class="fa fa-search"></i> Detail
-                                        </a>
-                                        @endif
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -110,18 +98,17 @@
                         <i class="fa fa-plus"></i> Tambah Data
                     </h4>
                 </div>
-                <form action="{{ route('pages.accounts.partner.store', ['name' => $dataname]) }}" method="POST">
-                    @csrf
+                <form action="{{ route('pages.accounts.partner.store', ['name' => $name === 'POLRI' ? 'POLSEK' : ($name === 'TNI' ? 'KORAMIL' : $name)]) }}" method="POST">                    @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-2">
                                 <div class="form-group">
-                                    <label for="regency_id" class="form-label"> Pilih {{ $dataname == "POLSEK" ? "POLSEK" : ($dataname == "KODIM" ? "KODIM" : "POLRES") }} </label>
+                                    <label for="regency_id" class="form-label"> Kodim </label>
                                     <select name="regency_id" class="form-control" id="regency_id">
                                         <option value="">- Pilih -</option>
-                                        @foreach ($keamanan as $item)
-                                            <option value="{{ $item['id'] }}|{{ $dataname }}|{{ $item['name'] }}">
-                                                {{ $dataname }} {{ $item['name'] }}
+                                        @foreach ($detail as $item)
+                                            <option value="{{ $item['id'] }}|{{ $item['name'] }}|{{ $item['regency_id'] }}">
+                                                KODIM {{ $item['name'] }}
                                             </option>
                                         @endforeach
                                     </select>

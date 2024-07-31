@@ -48,7 +48,6 @@ class PartnerController extends Controller
             if ($responseData["statusCode"] == 200) {
 
                 $data["response"] = $responseData["data"];
-
                 return view("pages.account.partner.index", $data);
             } else {
                 return redirect()->route("pages.dashboard")->with("error", $responseData["message"]);
@@ -143,9 +142,23 @@ class PartnerController extends Controller
             if ($name == "POLRES") {
                 list($id, $datapolsek, $itemname) = explode("|", $request->regency_id);
                 $nama = $itemname;
-            } else {
+                $id_regency = $id;
+                $district = null;
+            } else if ($name == "POLSEK") {
                 list($id, $dataname, $regency_id) = explode("|", $request->regency_id);
                 $nama = $dataname;
+                $id_regency = $regency_id;
+                $district = $id;
+            } else if ($name == "KODIM") {
+                list($id, $dataname, $regency_id) = explode("|", $request->regency_id);
+                $nama = $regency_id;
+                $id_regency = $id;
+                $district = null;
+            } else if ($name == "KORAMIL") {
+                list($id, $dataname, $regency_id) = explode("|", $request->regency_id);
+                $nama = $dataname;
+                $id_regency = $regency_id;
+                $district = $id;
             }
 
             $data = [
@@ -156,10 +169,10 @@ class PartnerController extends Controller
                 "phone_number_pic" => $request->phone_number_pic,
                 "alamat_organisasi" => $request->alamat_organisasi,
                 "province_id" => session("data")["province_id"],
-                "regency_id" => $name == "POLRES" ? $id : $regency_id,
-                "district_id" => $name == "POLRES" ? null : $id
+                "regency_id" => $id_regency,
+                "district_id" => $district
             ];
-            
+
 
             $client = new Client([
                 "timeout" => 10
@@ -290,6 +303,48 @@ class PartnerController extends Controller
             }
 
             return view("pages.account.partner.lihat-polsek", $data);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->route("pages.dashboard")->with("error", $e->getMessage());
+        }
+    }
+
+    public function lihatKodim($name, $province_id, $regency_id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $data = [];
+
+            $client = new Client([
+                "timeout" => 10
+            ]);
+
+            $response = $client->get(
+                ApiHelper::apiUrl("/region/" . $name . "/institution/districts/" . $regency_id)
+            );
+
+            $responsePolsek = $client->post(ApiHelper::apiUrl("/organization/partner/" . $name . "/org/" . $province_id . "/" . $regency_id));
+
+            $responseBody = json_decode($response->getBody(), true);
+            $responseBodyPolsek = json_decode($responsePolsek->getBody(), true);
+
+            $data["name"] = $name;
+
+            DB::commit();
+
+            if ($responseBodyPolsek["statusCode"] == 200) {
+
+                $data["detail"] = $responseBody["data"];
+                $data["datapolsek"] = $responseBodyPolsek["data"];
+
+            }
+
+            return view("pages.account.partner.lihat-kodim", $data);
 
         } catch (\Exception $e) {
 
