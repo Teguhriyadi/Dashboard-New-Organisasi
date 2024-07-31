@@ -64,13 +64,14 @@
                                             <tr>
                                                 <th class="text-center">No</th>
                                                 <th class="text-center">External ID</th>
-                                                <th>Nama</th>
-                                                <th class="text-center">Nomor HP</th>
-                                                <th class="text-center">Status Subscribe</th>
+                                                <th>Nama Pembeli</th>
+                                                <th>Nama Responder</th>
+                                                <th class="text-center">Nama Paket</th>
                                                 <th class="text-center">Status Transaksi</th>
                                                 <th class="text-center">Harga</th>
-                                                <th class="text-center">Nama Paket</th>
-                                                <th>Nama Responder</th>
+                                                <th class="text-center">
+                                                    {{session('data')['nama']}}
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -82,12 +83,11 @@
                                                     <td class="text-center">{{ ++$nomer }}.</td>
                                                     <td class="text-center">{{ $item['invoice_id'] }}</td>
                                                     <td>{{ $item['name'] }}</td>
+                                                    <td>{{ $item['nama_responder'] }}</td>
                                                     <td class="text-center">{{ $item['nama_paket'] }}</td>
-                                                    <td class="text-center">{{ $item['nama_institusi'] }}</td>
-                                                    <td class="text-center">{{ $item['nama_parent'] }}</td>
+                                                    <td class="text-center">{{ $item['status_transaksi'] }}</td>
                                                     <td class="text-center">Rp. {{ number_format($item['amount']) }}</td>
                                                     <td class="text-center">{{ $item['nama_institusi'] }}</td>
-                                                    <td>{{ $item['nama_responder'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -99,13 +99,14 @@
                                             <tr>
                                                 <th class="text-center">No</th>
                                                 <th class="text-center">External ID</th>
-                                                <th>Nama</th>
-                                                <th class="text-center">Nomor HP</th>
-                                                <th class="text-center">Status Subscribe</th>
+                                                <th>Nama Pembeli</th>
+                                                <th>Nama Responder</th>
+                                                <th class="text-center">Nama Paket</th>
                                                 <th class="text-center">Status Transaksi</th>
                                                 <th class="text-center">Harga</th>
-                                                <th class="text-center">Nama Paket</th>
-                                                <th>Nama Responder</th>
+                                                <th class="text-center">
+                                                    {{session('data')['nama']}}
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -117,12 +118,11 @@
                                                     <td class="text-center">{{ ++$nomerOrganisasi }}.</td>
                                                     <td class="text-center">{{ $item['invoice_id'] }}</td>
                                                     <td>{{ $item['name'] }}</td>
+                                                    <td>{{ $item['nama_responder'] }}</td>
                                                     <td class="text-center">{{ $item['nama_paket'] }}</td>
-                                                    <td class="text-center">{{ $item['nama_institusi'] }}</td>
-                                                    <td class="text-center">{{ $item['nama_parent'] }}</td>
+                                                    <td class="text-center">{{ $item['status_transaksi'] }}</td>
                                                     <td class="text-center">Rp. {{ number_format($item['amount']) }}</td>
                                                     <td class="text-center">{{ $item['nama_institusi'] }}</td>
-                                                    <td>{{ $item['nama_responder'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
