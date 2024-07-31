@@ -28,11 +28,23 @@ class HistoryPaymentPartnerController extends Controller
             $resOrganisasi = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction"));
             $responseBodyOrganisasi = json_decode($resOrganisasi->getBody(), true);
 
+
+            $transUmum = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction/organisasi/umum"));
+            $responseBodyUmum = json_decode($transUmum->getBody(), true);
+
+
+            $transOrg = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction/organisasi"));
+            $responseBodyOrganisasi = json_decode($transOrg->getBody(), true);
+
             DB::commit();
 
             if ($responseBodyUmum["statusCode"] == 200 && $responseBodyOrganisasi["statusCode"] == 200) {
                 $data["umum"] = $responseBodyUmum["data"];
                 $data["organisasi"] = $responseBodyOrganisasi["data"];
+
+
+                $data["trans_umum"] = $responseBodyUmum["data"];
+                $data["trans_organisasi"] = $responseBodyOrganisasi["data"];
             }
 
             return view("pages.transaksi.history-payment-partner.index", $data);

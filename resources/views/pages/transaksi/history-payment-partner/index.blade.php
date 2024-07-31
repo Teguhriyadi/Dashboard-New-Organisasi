@@ -1,6 +1,6 @@
 @extends('pages.layouts.main')
 
-@section("title", "Transaksi Pembayaran")
+@section('title', 'Transaksi Pembayaran')
 
 @section('component-css')
     <link href="{{ URL::asset('template') }}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -77,17 +77,17 @@
                                             @php
                                                 $nomer = 0;
                                             @endphp
-                                            @foreach ($umum as $item)
+                                            @foreach ($trans_umum as $item)
                                                 <tr>
                                                     <td class="text-center">{{ ++$nomer }}.</td>
-                                                    <td class="text-center">{{ $item['external_id'] }}</td>
+                                                    <td class="text-center">{{ $item['invoice_id'] }}</td>
                                                     <td>{{ $item['name'] }}</td>
-                                                    <td class="text-center">{{ $item['phone_number'] }}</td>
-                                                    <td class="text-center">{{ $item['status_subscribe'] }}</td>
-                                                    <td class="text-center">{{ $item['status_transaksi'] }}</td>
+                                                    <td class="text-center">{{ $item['nama_paket'] }}</td>
+                                                    <td class="text-center">{{ $item['nama_institusi'] }}</td>
+                                                    <td class="text-center">{{ $item['nama_parent'] }}</td>
                                                     <td class="text-center">Rp. {{ number_format($item['amount']) }}</td>
-                                                    <td class="text-center">{{ $item['masterPaket']['nama_paket'] }}</td>
-                                                    <td>{{ $item['responderName'] }}</td>
+                                                    <td class="text-center">{{ $item['nama_institusi'] }}</td>
+                                                    <td>{{ $item['nama_responder'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -112,17 +112,17 @@
                                             @php
                                                 $nomerOrganisasi = 0;
                                             @endphp
-                                            @foreach ($organisasi as $item)
+                                            @foreach ($trans_organisasi as $item)
                                                 <tr>
                                                     <td class="text-center">{{ ++$nomerOrganisasi }}.</td>
-                                                    <td class="text-center">{{ $item['external_id'] }}</td>
+                                                    <td class="text-center">{{ $item['invoice_id'] }}</td>
                                                     <td>{{ $item['name'] }}</td>
-                                                    <td class="text-center">{{ $item['phone_number'] }}</td>
-                                                    <td class="text-center">{{ $item['status_subscribe'] }}</td>
-                                                    <td class="text-center">{{ $item['status_transaksi'] }}</td>
+                                                    <td class="text-center">{{ $item['nama_paket'] }}</td>
+                                                    <td class="text-center">{{ $item['nama_institusi'] }}</td>
+                                                    <td class="text-center">{{ $item['nama_parent'] }}</td>
                                                     <td class="text-center">Rp. {{ number_format($item['amount']) }}</td>
-                                                    <td class="text-center">{{ $item['paketOrganization']['nama_paket'] }}</td>
-                                                    <td>{{ $item['responderName'] }}</td>
+                                                    <td class="text-center">{{ $item['nama_institusi'] }}</td>
+                                                    <td>{{ $item['nama_responder'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
