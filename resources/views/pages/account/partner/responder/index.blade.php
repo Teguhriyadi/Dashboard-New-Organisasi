@@ -1,6 +1,5 @@
 @extends('pages.layouts.main')
 
-@section('title', 'Detail Akun POLSEK')
 
 @section("component-css")
 <link href="{{ URL::asset('template') }}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -42,12 +41,12 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>
-                            Data POLSEK
+                            Data Responder
                         </h2>
-                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
+                        {{-- <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
                             data-target=".bs-example-modal-lg">
                             <i class="fa fa-plus"></i> Tambah
-                        </button>
+                        </button> --}}
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -58,11 +57,31 @@
                                     <th class="text-center">ID Institusi</th>
                                     <th>Nama</th>
                                     <th class="text-center">Nomor HP</th>
-                                    <th class="text-center">Total Responder</th>
-                                    <th class="text-center">ID Unique Institution</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Kode Referensi</th>
+                                    {{-- <th class="text-center">Aksi</th> --}}
                                 </tr>
                             </thead>
+                            <tbody>
+                                @php
+                                    $nomer = 0;
+                                @endphp
+                                @foreach ($response as $item)
+                                <tr>
+                                    <td class="text-center">{{ ++$nomer }}.</td>
+                                    <td class="text-center">{{ $item["institution_id"] }}</td>
+                                    <td>{{ $item["name"] }}</td>
+                                    <td class="text-center">{{ $item['phone_number'] }}</td>
+                                    <td class="text-center">{{ $item["email"] }}</td>
+                                    <td class="text-center">{{ $item['unique_responder_id'] }}</td>
+                                    {{-- <td class="text-center">
+                                        <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => 1, 'province_id' => session("data")["province_id"], "regency_id" => session("data")["regency_id"]]) }}" class="btn btn-success btn-sm">
+                                            <i class="fa fa-search"></i> Detail
+                                        </a>
+                                    </td> --}}
+                                </tr>
+                                @endforeach
+                            </tbody>
 
                         </table>
                     </div>

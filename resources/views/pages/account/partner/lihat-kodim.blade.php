@@ -103,12 +103,12 @@
                         <div class="row">
                             <div class="col-md-6 mb-2">
                                 <div class="form-group">
-                                    <label for="regency_id" class="form-label"> Kodim </label>
+                                    <label for="regency_id" class="form-label"> KORAMIL </label>
                                     <select name="regency_id" class="form-control" id="regency_id">
                                         <option value="">- Pilih -</option>
                                         @foreach ($detail as $item)
                                             <option value="{{ $item['id'] }}|{{ $item['name'] }}|{{ $item['regency_id'] }}">
-                                                KODIM {{ $item['name'] }}
+                                                KORAMIL {{ $item['name'] }}
                                             </option>
                                         @endforeach
                                     </select>

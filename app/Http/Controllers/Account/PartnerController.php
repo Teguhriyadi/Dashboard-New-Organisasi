@@ -75,6 +75,7 @@ class PartnerController extends Controller
             $response = $client->post(ApiHelper::apiUrl("/organization/partner/" . $insitusi_id  . "/responder"));
             $responseBody = json_decode($response->getBody(), true);
 
+            // dd($responseBody);
             DB::commit();
 
             if ($responseBody["statusCode"] == 200) {
@@ -99,6 +100,33 @@ class PartnerController extends Controller
     {
         try {
 
+            // DB::beginTransaction();
+
+            // $data = [];
+
+            // $client = new Client([
+            //     "timeout" => 10
+            // ]);
+
+            // $response = $client->post(ApiHelper::apiUrl("/organization/partner/" . $insitusi_id . "/transaction/umum"));
+            // $responseBodyUmum = json_decode($response->getBody(), true);
+
+            // $resOrganisasi = $client->post(ApiHelper::apiUrl("/organization/partner/" . $insitusi_id . "/transaction"));
+            // $responseBodyOrganisasi = json_decode($resOrganisasi->getBody(), true);
+
+            // DB::commit();
+
+            // if ($responseBodyUmum["statusCode"] == 200 && $responseBodyOrganisasi["statusCode"] == 200) {
+
+            //     $data["name"] = $name;
+            //     $data["umum"] = $responseBodyUmum["data"];
+            //     $data["organisasi"] = $responseBodyOrganisasi["data"];
+
+                // return view("pages.account.partner.transaksi.index", $data);
+            // } else {
+            //     return redirect()->route("pages.dashboard")->with("error", "Terjadi Kesalahan");
+            // }
+
             DB::beginTransaction();
 
             $data = [];
@@ -107,24 +135,33 @@ class PartnerController extends Controller
                 "timeout" => 10
             ]);
 
-            $response = $client->post(ApiHelper::apiUrl("/organization/partner/" . $insitusi_id . "/transaction/umum"));
-            $responseBodyUmum = json_decode($response->getBody(), true);
+            $resUmum = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction/umum"));
+            $responseBodyUmum = json_decode($resUmum->getBody(), true);
 
-            $resOrganisasi = $client->post(ApiHelper::apiUrl("/organization/partner/" . $insitusi_id . "/transaction"));
+            $resOrganisasi = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction"));
             $responseBodyOrganisasi = json_decode($resOrganisasi->getBody(), true);
+
+
+            $transUmum = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction/organisasi/umum"));
+            $responseBodysUmum = json_decode($transUmum->getBody(), true);
+
+
+            $transOrg = $client->post(ApiHelper::apiUrl("/organization/partner/" . session("data")["institution_id"] . "/transaction/organisasi"));
+            $responseBodysOrganisasi = json_decode($transOrg->getBody(), true);
 
             DB::commit();
 
             if ($responseBodyUmum["statusCode"] == 200 && $responseBodyOrganisasi["statusCode"] == 200) {
-
-                $data["name"] = $name;
                 $data["umum"] = $responseBodyUmum["data"];
                 $data["organisasi"] = $responseBodyOrganisasi["data"];
 
-                return view("pages.account.partner.transaksi.index", $data);
-            } else {
-                return redirect()->route("pages.dashboard")->with("error", "Terjadi Kesalahan");
+
+                $data["trans_umum"] = $responseBodysUmum["data"];
+                $data["trans_organisasi"] = $responseBodysOrganisasi["data"];
             }
+
+            return view("pages.account.partner.transaksi.index", $data);
+
 
         } catch (\Exception $e) {
 
@@ -292,6 +329,7 @@ class PartnerController extends Controller
 
 
             $data["name"] = $name;
+
 
             DB::commit();
 

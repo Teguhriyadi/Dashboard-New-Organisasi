@@ -130,7 +130,7 @@
                                 <option value="">- Pilih -</option>
                                 @foreach ($masterPaket as $item)
                                     <option value="{{ $item['detail']['id_master_paket_organization'] }}">
-                                        {{ $item['detail']['nama_paket'] }} - Limit Kontak :
+                                        {{ $item['detail']['nama_paket'] }} - Limit Responder :
                                         {{ $item['detail']['limitContact'] }} - Rp.
                                         {{ number_format($item['detail']['amount']) }}
                                     </option>

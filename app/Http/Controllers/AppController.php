@@ -30,16 +30,20 @@ class AppController extends Controller
                 "member_account_code" => $request->member_account_code
             ];
 
-            if ($data["code"] == "001") {
-                $url = "/organization/payment/check_price_pendidikan";
+            if ($data["code"] === "01" || $data["code"] === "02" || $data["code"] === "03" || $data["code"] === "04") {
+                $url = "/organization/payment/check_price_komersil";
                 $code = [
-                    "code" => $request->id_master_paket_organization
+                    "code" => $data["code"]
                 ];
+                $limit_user = [     
+                    "limit_user" => intval($request->limit_user)
+                ];
+                $data = array_merge($data, $limit_user);
 
                 $data = array_merge($data, $code);
             } else {
-                $url = "/organization/payment/check_price_komersil";
-                $limit_user = [
+                $url = "/organization/payment/check_price_pendidikan";
+                $limit_user = [     
                     "limit_user" => intval($request->limit_user)
                 ];
                 $data = array_merge($data, $limit_user);
@@ -55,15 +59,25 @@ class AppController extends Controller
                 ]
             );
 
+
             $responseBody = json_decode($response->getBody(), true);
 
             DB::commit();
 
-            return response()->json([
-                "status" => true,
-                "message" => "Data Berhasil di Tampilkan",
-                "data" => $data["code"] == "001" ? $responseBody["data"] : $responseBody["addOnUser"]
-            ]);
+            if($data["code"] === "1" || $data["code"] === "2" || $data["code"] === "3"){
+                return response()->json([
+                    "status" => true,
+                    "message" => "Data Berhasil di Tampilkan 1",
+                    "data" => $responseBody["data"]
+                ]);
+            } else {
+                return response()->json([
+                    "status" => true,
+                    "message" => "Data Berhasil di Tampilkan 2",
+                    "data" => $responseBody["addOnUser"]
+                ]);
+            }
+
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -132,7 +146,7 @@ class AppController extends Controller
                 "timeout" => 10
             ]);
 
-            if ($request->code == "1" || $request->code == "2" || $request->code == "3") {
+            if ($request->code === "1" || $request->code === "2" || $request->code === "3") {
                 $apiUrl = "/organization/payment/check_price_pendidikan";
 
                 $data = [
@@ -144,7 +158,7 @@ class AppController extends Controller
                 $apiUrl = "/organization/payment/check_price_komersil";
 
                 $data = [
-                    "code" => intval($request->code),
+                    "code" => $request->code,
                     "limit_user" => intval($request->limituser),
                     "member_account_code" => $request->member_account_code,
                     "durationDate" => intval($request->durationDate)
@@ -168,7 +182,7 @@ class AppController extends Controller
             return response()->json([
                 "status" => true,
                 "message" => "Data Berhasil di Tampilkan",
-                "data" => $request->code == "1" || $request->code == "2" || $request->code == "3" ? $responseBody["data"] : $responseBody["extendsPaket"]
+                "data" => $request->code === "1" || $request->code === "2" || $request->code === "3" ? $responseBody["data"] : $responseBody["extendsPaket"]
             ]);
         } catch (\Exception $e) {
 

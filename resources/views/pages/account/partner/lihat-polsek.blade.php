@@ -56,7 +56,7 @@
                                     <th class="text-center">Nomor HP</th>
                                     <th class="text-center">Total Responder</th>
                                     <th class="text-center">ID Unique Institution</th>
-                                    {{-- <th class="text-center">Aksi</th> --}}
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,6 +76,17 @@
                                             <i class="fa fa-search"></i> Detail
                                         </a>
                                     </td> --}}
+
+                                    <td class="text-center">
+                                        @if ($item['total_responder'] != 0)
+                                        <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $name, 'institution_id' => $item['institution_id']]) }}" class="btn btn-info btn-sm">
+                                            <i class="fa fa-search"></i> Lihat Responder
+                                        </a>
+                                        @endif
+                                        <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $name, 'institution_id' => $item['institution_id']]) }}" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-search"></i> Lihat Transaksi
+                                        </a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

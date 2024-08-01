@@ -62,7 +62,7 @@
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th>Nama</th>
-                                    <th class="text-center">Kode Akun Member</th>
+                                    {{-- <th class="text-center">Kode Akun Member</th> --}}
                                     <th class="text-center">Nomor HP</th>
                                     <th class="text-center">Username</th>
                                     <th class="text-center">Status</th>
@@ -78,7 +78,7 @@
                                     <tr>
                                         <td class="text-center">{{ ++$nomer }}.</td>
                                         <td>{{ $item['detail']['nama'] }}</td>
-                                        <td class="text-center">{{ $item['detail']['member_account_code'] }}</td>
+                                        {{-- <td class="text-center">{{ $item['detail']['member_account_code'] }}</td> --}}
                                         <td class="text-center">{{ $item['detail']['phone_number'] }}</td>
                                         <td class="text-center">
                                             {{ empty($item['detail']['username']) ? '-' : $item['detail']['username'] }}
@@ -94,7 +94,7 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td class="text-center">{{ $item['detail']['org'] }}</td>
+                                        <td class="text-center">{{ $item['detail']['nama_institusi'] }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('pages.accounts.responder.show', ['username' => $item['detail']['username'], 'org' => $item['detail']['org'], 'id_req_contact' => empty($item['detail']['id_request_contact']) ? '0' : $item['detail']['id_request_contact'] ])}}"
                                                 class="btn btn-info btn-sm">

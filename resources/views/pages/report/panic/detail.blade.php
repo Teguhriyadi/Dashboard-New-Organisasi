@@ -52,11 +52,6 @@
             <i class="fa fa-sign-out"></i> Kembali
         </a>
 
-        <button style="margin-top: 5px" type="button" class="btn btn-primary" data-toggle="modal"
-            data-target=".bs-example-modal-lg">
-            Lihat Lokasi Kejadian
-        </button>
-
         @php
             $lokasi = json_decode(stripslashes($detail['lokasi']), true);
             $lokasi_user = json_decode(stripslashes($detail['lokasi_user']), true);
@@ -81,15 +76,15 @@
                                 {{ $detail['name'] }}
                             </div>
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Kode Member
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
                                 {{ $detail['member_code'] }}
                             </div>
-                        </div>
-                        <div class="form-group row">
+                        </div> --}}
+                        {{-- <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Latitude
                             </label>
@@ -104,15 +99,33 @@
                             <div class="col-md-5 col-sm-9 col-xs-12">
                                 {{ $lokasi['longitude'] }}
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
-                                Nomor HP
+                                Nomor HP 
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
                                 {{ empty($detail['phone_number']) ? '-' : $detail['phone_number'] }}
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-4 col-sm-3 col-xs-12">
+                                Tanggal Kejadian
+                            </label>
+                            <div class="col-md-5 col-sm-9 col-xs-12">
+                                {{ $detail['tanggal'] }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-4 col-sm-3 col-xs-12">
+                                Waktu Kejadian
+                            </label>
+                            <div class="col-md-5 col-sm-9 col-xs-12">
+                                {{ $detail['jam'] }}
+                            </div>
+                        </div>
+                       
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Status
@@ -133,9 +146,12 @@
                                 @endif
                             </div>
                         </div>
+                        
                     </div>
+                    
                 </div>
             </div>
+            @if ($detail['status'] == 'P' || $detail['status'] == 'D')
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
@@ -147,7 +163,7 @@
                     <div class="x_content">
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
-                                Nama Responder
+                                Nama 
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
                                 {{ $detail['responder_name'] }}
@@ -155,7 +171,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
-                                Nomor HP Responder
+                                Nomor HP 
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
                                 {{ $detail['phone_number_responder'] }}
@@ -164,6 +180,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 
@@ -190,6 +207,8 @@
                 lat: {{ $lokasi['latitude'] }},
                 lng: {{ $lokasi['longitude'] }}
             };
+
+            console.log(location1);
 
             var location2 = {
                 lat: {{ $lokasi_user['latitude'] }},
@@ -226,21 +245,21 @@
 
             var infoWindow1 = new google.maps.InfoWindow({
                 content: `
-                    <strong>Latitude : {{ $lokasi["latitude"] }} </strong>
+                    <strong>Latitude : {{ $lokasi['latitude'] }} </strong>
                     <br>
-                    <strong>Longitude : {{ $lokasi["longitude"] }} </strong>
+                    <strong>Longitude : {{ $lokasi['longitude'] }} </strong>
                 `
             });
 
             var infoWindow2 = new google.maps.InfoWindow({
                 content: `
-                    <strong>Nama User : {{ $detail["name"] }} </strong>
+                    <strong>Nama User : {{ $detail['name'] }} </strong>
                 `
             });
 
             var infoWindow3 = new google.maps.InfoWindow({
                 content: `
-                    <strong>Nama Responder : {{ $detail["responder_name"] }} </strong>
+                    <strong>Nama Responder : {{ $detail['responder_name'] }} </strong>
                 `
             });
 

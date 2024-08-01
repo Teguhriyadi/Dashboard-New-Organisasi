@@ -59,7 +59,7 @@
                                 <tr>
                                     <td class="text-center">{{ ++$nomer }}.</td>
                                     <td class="text-center">{{ $item["external_id"] }}</td>
-                                    <td>{{ $item["nama_paket"] }}</td>
+                                    <td>{{ $item["nama_paket"] === "Custom" ? "Voice Call" : $item["nama_paket"] }}</td>
                                     <td class="text-center">{{ $item["tanggal"] }}</td>
                                     <td class="text-center">Rp. {{ number_format($item["amount"]) }}</td>
                                     <td class="text-center">{{ $item["status_transaksi"] }}</td>

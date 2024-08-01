@@ -44,7 +44,7 @@
                                 <br>
                                 Limit User : {{ $item['limit_user'] }}
                                 <br>
-                                Limit Kontak : {{ $item['limit_contact'] }}
+                                Limit Responder : {{ $item['limit_contact'] }}
                                 <br>
                                 Harga Dasar : Rp. {{ number_format($item['amount']) }}
                                 <br>
@@ -78,7 +78,7 @@
                             <br>
                             Limit User : {{ $masterpaket['limit_user'] }}
                             <br>
-                            Limit Kontak : {{ $masterpaket['limit_contact'] }}
+                            Limit Responder : {{ $masterpaket['limit_contact'] }}
                             <br>
                             Harga Dasar : Rp. {{ number_format($masterpaket['amount']) }}
                             <br>
