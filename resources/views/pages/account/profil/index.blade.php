@@ -69,6 +69,14 @@
                                 </div>
                             </div>
 
+                            @if (session('data')['account_category'] === "INTERNAL")
+                            <div class="form-group">
+                                <label for="nama" class="form-label"> Kategori Organisasi</label>
+                                <input type="text" class="form-control" disabled name="alamat_organisasi" id="alamat_organisasi"
+                                    placeholder="Masukkan Nama" value="{{ old('alamat_organisasi', $detail['detailMembership']["bisnis_category"]) }}">
+                            </div>
+                            @endif
+
                             <div class="row">
                                 <div class="col-md-6 col-xs-12">
                                     <div class="form-group">

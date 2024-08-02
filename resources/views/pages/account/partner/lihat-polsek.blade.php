@@ -2,12 +2,16 @@
 
 @section('title', 'Detail Akun POLSEK')
 
-@section("component-css")
-<link href="{{ URL::asset('template') }}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-<link href="{{ URL::asset('template') }}/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-<link href="{{ URL::asset('template') }}/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-<link href="{{ URL::asset('template') }}/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-<link href="{{ URL::asset('template') }}/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+@section('component-css')
+    <link href="{{ URL::asset('template') }}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ URL::asset('template') }}/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"
+        rel="stylesheet">
+    <link href="{{ URL::asset('template') }}/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css"
+        rel="stylesheet">
+    <link href="{{ URL::asset('template') }}/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css"
+        rel="stylesheet">
+    <link href="{{ URL::asset('template') }}/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
+        rel="stylesheet">
 @endsection
 
 @section('content-page')
@@ -51,11 +55,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th class="text-center">ID Institusi</th>
                                     <th>Nama</th>
                                     <th class="text-center">Nomor HP</th>
+                                    <th class="text-center">Kode Institusi</th>
+                                    <th class="text-center">Tanggal Dibuat</th>
                                     <th class="text-center">Total Responder</th>
-                                    <th class="text-center">ID Unique Institution</th>
+                                    <th class="text-center">Total Transaksi</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -64,30 +69,36 @@
                                     $nomer = 0;
                                 @endphp
                                 @foreach ($datapolsek as $item)
-                                <tr>
-                                    <td class="text-center">{{ ++$nomer }}.</td>
-                                    <td class="text-center">{{ $item["institution_id"] }}</td>
-                                    <td>{{ $item["nama"] }}</td>
-                                    <td class="text-center">{{ $item['phone_number'] }}</td>
-                                    <td class="text-center">{{ $item['total_responder'] }}</td>
-                                    <td class="text-center">{{ $item["unique_institution_id"] }}</td>
-                                    {{-- <td class="text-center">
+                                    <tr>
+                                        <td class="text-center">{{ ++$nomer }}.</td>
+                                        <td>{{ $item['nama'] }}</td>
+                                        <td class="text-center">{{ $item['phone_number'] }}</td>
+                                        <td class="text-center">{{ $item['unique_institution_id'] }}</td>
+                                        <td class="text-center">{{ $item['created_at'] }}</td>
+                                        <td class="text-center">{{ $item['total_responder'] }}</td>
+                                        <td class="text-center">{{ $item['total_transaksi'] }}</td>
+                                        {{-- <td class="text-center">
                                         <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => 1, 'province_id' => session("data")["province_id"], "regency_id" => session("data")["regency_id"]]) }}" class="btn btn-success btn-sm">
                                             <i class="fa fa-search"></i> Detail
                                         </a>
                                     </td> --}}
 
-                                    <td class="text-center">
-                                        @if ($item['total_responder'] != 0)
-                                        <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $name, 'institution_id' => $item['institution_id']]) }}" class="btn btn-info btn-sm">
-                                            <i class="fa fa-search"></i> Lihat Responder
-                                        </a>
-                                        @endif
-                                        <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $name, 'institution_id' => $item['institution_id']]) }}" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-search"></i> Lihat Transaksi
-                                        </a>
-                                    </td>
-                                </tr>
+                                        <td class="text-center">
+                                            @if ($item['total_responder'] != 0)
+                                                <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $name, 'institution_id' => $item['institution_id']]) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fa fa-search"></i> Lihat Responder
+                                                </a>
+                                            @endif
+                                            @if ($item['total_transaksi'] != 0)
+                                                <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $name, 'institution_id' => $item['institution_id']]) }}"
+                                                    class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-search"></i> Lihat Transaksi
+                                                </a>
+                                            @endif
+
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -109,7 +120,9 @@
                         <i class="fa fa-plus"></i> Tambah Data
                     </h4>
                 </div>
-                <form action="{{ route('pages.accounts.partner.store', ['name' => $name === 'POLRI' ? 'POLSEK' : ($name === 'TNI' ? 'KORAMIL' : $name)]) }}" method="POST">                    @csrf
+                <form
+                    action="{{ route('pages.accounts.partner.store', ['name' => $name === 'POLRI' ? 'POLSEK' : ($name === 'TNI' ? 'KORAMIL' : $name)]) }}"
+                    method="POST"> @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-2">
@@ -118,7 +131,8 @@
                                     <select name="regency_id" class="form-control" id="regency_id">
                                         <option value="">- Pilih -</option>
                                         @foreach ($detail as $item)
-                                            <option value="{{ $item['id'] }}|{{ $item['name'] }}|{{ $item['regency_id'] }}">
+                                            <option
+                                                value="{{ $item['id'] }}|{{ $item['name'] }}|{{ $item['regency_id'] }}">
                                                 POLSEK {{ $item['name'] }}
                                             </option>
                                         @endforeach
@@ -160,14 +174,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone_number_pic" class="form-label"> Nomor HP PIC </label>
-                                    <input type="text" class="form-control" name="phone_number_pic" id="phone_number_pic"
-                                        placeholder="Masukkan Nomor HP PIC" value="{{ old('phone_number_pic') }}">
+                                    <input type="text" class="form-control" name="phone_number_pic"
+                                        id="phone_number_pic" placeholder="Masukkan Nomor HP PIC"
+                                        value="{{ old('phone_number_pic') }}">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="alamat_organisasi" class="form-label"> Alamat </label>
-                            <textarea name="alamat_organisasi" class="form-control" id="alamat_organisasi" rows="5" placeholder="Masukkan Alamat Organisasi">{{ old('alamat_organisasi') }}</textarea>
+                            <textarea name="alamat_organisasi" class="form-control" id="alamat_organisasi" rows="5"
+                                placeholder="Masukkan Alamat Organisasi">{{ old('alamat_organisasi') }}</textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -185,10 +201,11 @@
 
 @endsection
 
-@section("component-js")
-<script src="{{ URL::asset('template') }}/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="{{ URL::asset('template') }}/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="{{ URL::asset('template') }}/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-<script src="{{ URL::asset('template') }}/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="{{ URL::asset('template') }}/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+@section('component-js')
+    <script src="{{ URL::asset('template') }}/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="{{ URL::asset('template') }}/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ URL::asset('template') }}/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js">
+    </script>
+    <script src="{{ URL::asset('template') }}/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="{{ URL::asset('template') }}/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
 @endsection

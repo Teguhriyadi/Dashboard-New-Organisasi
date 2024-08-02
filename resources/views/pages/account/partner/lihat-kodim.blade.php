@@ -1,6 +1,6 @@
 @extends('pages.layouts.main')
 
-@section('title', 'Detail Akun KORAMIL')
+@section('title', 'Detail Akun ' . $name)
 
 @section("component-css")
 <link href="{{ URL::asset('template') }}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>
-                            Data KORAMIL
+                            Data
                         </h2>
                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
                             data-target=".bs-example-modal-lg">
@@ -51,12 +51,13 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th class="text-center">ID Institusi</th>
                                     <th>Nama</th>
                                     <th class="text-center">Nomor HP</th>
+                                    <th class="text-center">Kode Institusi</th>
+                                    <th class="text-center">Tanggal Dibuat</th>
                                     <th class="text-center">Total Responder</th>
-                                    <th class="text-center">ID Unique Institution</th>
-                                    {{-- <th class="text-center">Aksi</th> --}}
+                                    <th class="text-center">Total Transaksi</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,16 +67,25 @@
                                 @foreach ($datapolsek as $item)
                                 <tr>
                                     <td class="text-center">{{ ++$nomer }}.</td>
-                                    <td class="text-center">{{ $item["institution_id"] }}</td>
                                     <td>{{ $item["nama"] }}</td>
                                     <td class="text-center">{{ $item['phone_number'] }}</td>
-                                    <td class="text-center">{{ $item['total_responder'] }}</td>
                                     <td class="text-center">{{ $item["unique_institution_id"] }}</td>
-                                    {{-- <td class="text-center">
-                                        <a href="{{ route('pages.account.partner.lihat-polsek', ['name' => 1, 'province_id' => session("data")["province_id"], "regency_id" => session("data")["regency_id"]]) }}" class="btn btn-success btn-sm">
-                                            <i class="fa fa-search"></i> Detail
+                                    <td class="text-center">{{ $item["created_at"] }}</td>
+                                    <td class="text-center">{{ $item['total_responder'] }}</td>
+                                    <td class="text-center">{{ $item['total_transaksi'] }}</td>
+                                    <td class="text-center">
+                                        @if ($item['total_responder'] != 0)
+                                        <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-info btn-sm">
+                                            <i class="fa fa-search"></i> Lihat Responder
                                         </a>
-                                    </td> --}}
+                                        @endif
+                                        @if ($item['total_transaksi'] != 0)
+
+                                        <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-search"></i> Lihat Transaksi
+                                        </a>
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -103,12 +113,12 @@
                         <div class="row">
                             <div class="col-md-6 mb-2">
                                 <div class="form-group">
-                                    <label for="regency_id" class="form-label"> KORAMIL </label>
+                                    <label for="regency_id" class="form-label"> {{$name}} </label>
                                     <select name="regency_id" class="form-control" id="regency_id">
                                         <option value="">- Pilih -</option>
                                         @foreach ($detail as $item)
                                             <option value="{{ $item['id'] }}|{{ $item['name'] }}|{{ $item['regency_id'] }}">
-                                                KORAMIL {{ $item['name'] }}
+                                                {{$name}} {{ $item['name'] }}
                                             </option>
                                         @endforeach
                                     </select>

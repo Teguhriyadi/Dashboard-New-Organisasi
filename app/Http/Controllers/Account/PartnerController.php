@@ -373,13 +373,18 @@ class PartnerController extends Controller
 
             $data["name"] = $name;
 
+            if ($name == "POLRI") {
+                $data['name'] = "POLSEK";
+            } else if ($name == "TNI") {
+                $data['name'] = "KORAMIL";
+            }
+
             DB::commit();
 
             if ($responseBodyPolsek["statusCode"] == 200) {
 
                 $data["detail"] = $responseBody["data"];
                 $data["datapolsek"] = $responseBodyPolsek["data"];
-
             }
 
             return view("pages.account.partner.lihat-kodim", $data);

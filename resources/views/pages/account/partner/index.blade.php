@@ -51,11 +51,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th class="text-center">ID Institusi</th>
                                     <th>Nama</th>
                                     <th class="text-center">Nomor HP</th>
+                                    <th class="text-center">Kode Institusi</th>
+                                    <th class="text-center">Tanggal Dibuat</th>
                                     <th class="text-center">Total Responder</th>
-                                    <th class="text-center">ID Unique Institution</th>
+                                    <th class="text-center">Total Transaksi</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -66,20 +67,25 @@
                                 @foreach ($response as $item)
                                 <tr>
                                     <td class="text-center">{{ ++$nomer }}.</td>
-                                    <td class="text-center">{{ $item["institution_id"] }}</td>
                                     <td>{{ $item["nama"] }}</td>
                                     <td class="text-center">{{ $item['phone_number'] }}</td>
-                                    <td class="text-center">{{ $item['total_responder'] }}</td>
                                     <td class="text-center">{{ $item["unique_institution_id"] }}</td>
+                                    <td class="text-center">{{ $item["created_at"] }}</td>
+                                    <td class="text-center">{{ $item['total_responder'] }}</td>
+                                    <td class="text-center">{{ $item['total_transaksi'] }}</td>
                                     <td class="text-center">
                                         @if ($item['total_responder'] != 0)
                                         <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-info btn-sm">
                                             <i class="fa fa-search"></i> Lihat Responder
                                         </a>
                                         @endif
+                                        @if ($item['total_transaksi'] != 0)
+
                                         <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-search"></i> Lihat Transaksi
                                         </a>
+                                        @endif
+
                                         @if ($dataname == "KODIM")
                                         <a href="{{ route('pages.account.partner.lihat-kodim', ['name' => session("data")["sub_category_organization_id"]["name"], 'province_id' => $item['province_id'], "regency_id" => $item['regency_id']]) }}" class="btn btn-success btn-sm">
                                             <i class="fa fa-search"></i> Detail
