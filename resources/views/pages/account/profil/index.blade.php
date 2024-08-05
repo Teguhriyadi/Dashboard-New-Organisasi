@@ -50,7 +50,8 @@
                                     <div class="form-group">
                                         <label for="nama" class="form-label"> Nama PIC</label>
                                         <input type="text" class="form-control" name="nama_pic" id="nama_pic"
-                                            placeholder="Masukkan Nama PIC" value="{{ old('nama_pic', $detail['nama_pic']) }}">
+                                            placeholder="Masukkan Nama PIC"
+                                            value="{{ old('nama_pic', $detail['nama_pic']) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -62,43 +63,56 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="username" class="form-label"> Nomor Telepon PIC </label>
-                                        <input type="username" class="form-control" name="phone_number_pic" id="phone_number_pic"
-                                            placeholder="Masukkan Nomor Telepon PIC"
+                                        <input type="username" class="form-control" name="phone_number_pic"
+                                            id="phone_number_pic" placeholder="Masukkan Nomor Telepon PIC"
                                             value="{{ old('phone_number_pic', $detail['phone_number_pic']) }}" readonly>
                                     </div>
                                 </div>
                             </div>
 
-                            @if (session('data')['account_category'] === "INTERNAL")
-                            <div class="form-group">
-                                <label for="nama" class="form-label"> Kategori Organisasi</label>
-                                <input type="text" class="form-control" disabled name="alamat_organisasi" id="alamat_organisasi"
-                                    placeholder="Masukkan Nama" value="{{ old('alamat_organisasi', $detail['detailMembership']["bisnis_category"]) }}">
-                            </div>
+                            @if (session('data')['account_category'] === 'INTERNAL')
+                                <div class="form-group">
+                                    <label for="nama" class="form-label"> Kategori Organisasi</label>
+                                    <input type="text" class="form-control" disabled name="alamat_organisasi"
+                                        id="alamat_organisasi" placeholder="Masukkan Nama"
+                                        value="{{ old('alamat_organisasi', $detail['detailMembership']['bisnis_category']) }}">
+                                </div>
                             @endif
 
                             <div class="row">
                                 <div class="col-md-6 col-xs-12">
                                     <div class="form-group">
-                                        <label for="member_account_code" class="form-label"> Kode Member Akun </label>
-                                        <input type="number" class="form-control" name="member_account_code"
-                                            id="member_account_code" placeholder="Masukkan Kode Member Akun" min="1"
-                                            value="{{ old('member_account_code', $detail['member_account_code']) }}"
-                                            readonly>
+                                        @if (session('data')['account_category'] === 'PARTNER')
+                                            <label for="member_account_code" class="form-label"> Kode Institusi </label>
+                                            <input type="number" class="form-control" name="member_account_code"
+                                                id="member_account_code" placeholder="Masukkan Kode Member Akun"
+                                                min="1"
+                                                value="{{ old('unique_institution_id', $detail['unique_institution_id']) }}"
+                                                readonly>
+                                        @else
+                                        <label for="member_account_code" class="form-label"> Kode Institusi </label>
+                                            <input type="number" class="form-control" name="member_account_code"
+                                                id="member_account_code" placeholder="Masukkan Kode Member Akun"
+                                                min="1"
+                                                value="{{ old('unique_institution_id', $detail['institution_id']) }}"
+                                                readonly>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-xs-12">
                                     <div class="form-group">
                                         <label for="nama" class="form-label"> Nomor Telepon Organisasi</label>
-                                        <input type="text" class="form-control" name="phone_number" id="phone_number" readonly
-                                            placeholder="Masukkan Nama" value="{{ old('phone_number', $detail['phone_number']) }}">
+                                        <input type="text" class="form-control" name="phone_number" id="phone_number"
+                                            readonly placeholder="Masukkan Nama"
+                                            value="{{ old('phone_number', $detail['phone_number']) }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="nama" class="form-label"> Alamat Organisasi</label>
                                 <input type="text" class="form-control" name="alamat_organisasi" id="alamat_organisasi"
-                                    placeholder="Masukkan Nama" value="{{ old('alamat_organisasi', $detail['alamat_organisasi']) }}">
+                                    placeholder="Masukkan Nama"
+                                    value="{{ old('alamat_organisasi', $detail['alamat_organisasi']) }}">
                             </div>
                             <hr>
                             <div class="form-group">

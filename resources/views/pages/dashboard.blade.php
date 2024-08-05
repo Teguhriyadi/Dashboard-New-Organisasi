@@ -38,7 +38,7 @@
                                     {{ $totalResponderPartner }}
                                 </div>
                                 <h3>Responder</h3>
-                                <a href="{{ route('pages.account.responder.index-admin', ['member_account_code' => session('data')['member_account_code']]) }}"
+                                <a href="{{ route('pages.responder.akun.index') }}"
                                     class="btn btn-secondary btn-sm btn-block" style="margin-top: 10px;">
                                     <i class="fa fa-sign-in"></i> Pergi Ke Halaman
                                 </a>
@@ -53,7 +53,7 @@
                                     {{ $totalTransaksiPartnerUmum }}
                                 </div>
                                 <h3>Transaksi</h3>
-                                <a href="{{ route('pages.accounts.user.index-admin', ['member_account_code' => session('data')['institution_id']]) }}"
+                                <a href="{{ route('pages.transaction.history-payment-partner.index')}}"
                                     class="btn btn-secondary btn-sm btn-block" style="margin-top: 10px;">
                                     <i class="fa fa-sign-in"></i> Pergi Ke Halaman
                                 </a>

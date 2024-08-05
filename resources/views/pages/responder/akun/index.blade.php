@@ -47,8 +47,8 @@
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th class="text-center">Nomor HP</th>
-                                    <th class="text-center">ID Institusi</th>
-                                    <th class="text-center">ID Unique Responder</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Kode Referensi</th>
                                     <th class="text-center">Waktu Registrasi</th>
                                 </tr>
                             </thead>
@@ -61,8 +61,8 @@
                                     <td class="text-center">{{ ++$nomer }}.</td>
                                     <td>{{ $item["name"] }}</td>
                                     <td>{{ $item["email"] }}</td>
-                                    <td class="text-center">{{ $item['country_code'] }} {{ $item['phone_number'] }}</td>
-                                    <td class="text-center">{{ $item["institution_id"] }}</td>
+                                    <td class="text-center">{{ $item['country_code'] }}{{ $item['phone_number'] }}</td>
+                                    <td class="text-center">{{ $item["email"] }}</td>
                                     <td class="text-center">{{ $item["unique_responder_id"] }}</td>
                                     <td class="text-center">{{ $item["register_at"] }}</td>
                                 </tr>

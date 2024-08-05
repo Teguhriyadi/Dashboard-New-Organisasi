@@ -35,7 +35,7 @@
         const encryptId = "{{ session('encrypt') }}"
 
         const checkPaymentUrl =
-            `https://68df-2400-9800-6032-4ce9-8d49-6751-64-d2ea.ngrok-free.app/api/organization/payment/${externalId}/check`
+            `https://3678-2400-9800-6032-ba2-143b-bf38-923f-155c.ngrok-free.app/api/organization/payment/${externalId}/check`
 
         function checkPaymentStatus() {
             fetch(checkPaymentUrl, {

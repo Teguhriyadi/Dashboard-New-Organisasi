@@ -1,6 +1,6 @@
 @extends('pages.layouts.main')
 
-@section('title', 'Akun User ' . $detail['detail']['mmbr_name'])
+{{-- @section('title', 'Akun User ' . $detail['detail']['mmbr_name']) --}}
 
 @section('content-page')
 
@@ -49,6 +49,14 @@
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
+                                Email
+                            </label>
+                            <div class="col-md-5 col-sm-9 col-xs-12">
+                                {{ $detail['detail']['email'] }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Username
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
@@ -82,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 col-xs-12">
+            {{-- <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>
@@ -117,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
