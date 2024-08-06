@@ -1,6 +1,6 @@
 @extends('pages.layouts.main')
 
-@section('title', 'Detail Data Panic')
+{{-- @section('title', 'Detail Data Panic') --}}
 
 @section('component-css')
     <link href="{{ URL::asset('template') }}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>
-                            @yield('title')
+                            Detail Data User
                         </h2>
                         <div class="clearfix"></div>
                     </div>
@@ -76,22 +76,6 @@
                                 {{ $detail['name'] }}
                             </div>
                         </div>
-                        {{-- <div class="form-group row">
-                            <label class="control-label col-md-4 col-sm-3 col-xs-12">
-                                Kode Member
-                            </label>
-                            <div class="col-md-5 col-sm-9 col-xs-12">
-                                {{ $detail['member_code'] }}
-                            </div>
-                        </div> --}}
-                        {{-- <div class="form-group row">
-                            <label class="control-label col-md-4 col-sm-3 col-xs-12">
-                                Latitude
-                            </label>
-                            <div class="col-md-5 col-sm-9 col-xs-12">
-                                {{ $lokasi['latitude'] }}
-                            </div>
-                        </div>
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Longitude
@@ -99,7 +83,7 @@
                             <div class="col-md-5 col-sm-9 col-xs-12">
                                 {{ $lokasi['longitude'] }}
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Nomor HP
@@ -151,7 +135,7 @@
 
                 </div>
             </div>
-            @if ($detail['status'] == 'P' || $detail['status'] == 'D')
+            @if ($detail['statuss'] == 'P' || $detail['statuss'] == 'D')
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">

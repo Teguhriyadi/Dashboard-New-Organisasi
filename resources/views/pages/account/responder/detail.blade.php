@@ -1,6 +1,6 @@
 @extends('pages.layouts.main')
 
-@section('title', 'Akun User')
+{{-- @section('title', 'Akun User') --}}
 
 @section('content-page')
 
@@ -50,18 +50,18 @@
                         @if (!empty($detail['detail']['nama']))
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
-                                Username
+                                Email
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
-                                {{ $detail['detail']['username'] }}
+                                {{ $detail['detail']['email'] }}
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
-                                Kode Member Akun
+                                Username
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
-                                {{ $detail['detail']['member_account_code'] }}
+                                {{ $detail['detail']['username'] }}
                             </div>
                         </div>
                         @endif
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            @if ($org != "partner")
+            {{-- @if ($org != "partner")
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
@@ -129,7 +129,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+            @endif --}}
         </div>
     </div>
 
