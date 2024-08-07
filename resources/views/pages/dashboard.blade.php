@@ -53,7 +53,7 @@
                                     {{ $totalTransaksiPartnerUmum }}
                                 </div>
                                 <h3>Transaksi</h3>
-                                <a href="{{ route('pages.transaction.history-payment-partner.index')}}"
+                                <a href="{{ route('pages.transaction.history-payment-partner.index') }}"
                                     class="btn btn-secondary btn-sm btn-block" style="margin-top: 10px;">
                                     <i class="fa fa-sign-in"></i> Pergi Ke Halaman
                                 </a>
@@ -110,11 +110,11 @@
                                         data-target=".bs-example-modal-lg">
                                         <i class="fa fa-plus" style="margin-right: 5px"></i> Tambah Limit User
                                     </button>
+                                @else
                                     <a href="{{ route('pages.master.paket.index') }}"
                                         class="btn btn-primary btn-sm pull-right">
                                         Beli Paket Baru
                                     </a>
-                                @else
                                 @endif
                             @endif
                             <div class="clearfix"></div>
@@ -125,7 +125,7 @@
                                     Nama Paket
                                 </div>
                                 <div class="col-md-5">
-                                    {{ $showDetail['detailMembership']['nama_paket'] == "Custom" ? "Voice Call" : $showDetail['detailMembership']['nama_paket'] }}
+                                    {{ $showDetail['detailMembership']['nama_paket'] == 'Custom' ? 'Voice Call' : $showDetail['detailMembership']['nama_paket'] }}
                                 </div>
                             </div>
                             <div class="row">
@@ -208,7 +208,7 @@
                         </div>
                         <small class="text-danger fw-bold">
                             Catatan : Masa aktif user menyesuaikan sisa waktu paket (
-                                {{ $showDetail['detailMembership']['remainingDate'] }} Hari
+                            {{ $showDetail['detailMembership']['remainingDate'] }} Hari
                             )
 
                         </small>
