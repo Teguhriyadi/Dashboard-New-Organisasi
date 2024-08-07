@@ -78,6 +78,14 @@
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-4 col-sm-3 col-xs-12">
+                                Longitude
+                            </label>
+                            <div class="col-md-5 col-sm-9 col-xs-12">
+                                {{ $lokasi['longitude'] }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-4 col-sm-3 col-xs-12">
                                 Nomor HP
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
@@ -107,9 +115,19 @@
                                 Status
                             </label>
                             <div class="col-md-5 col-sm-9 col-xs-12">
-                                <button disabled class="btn btn-danger btn-sm fw-bold text-uppercase">
-                                    {{ $detail['status'] }}
-                                </button>
+                                @if ($detail['statuss'] == 'P')
+                                    <button disabled class="btn btn-danger btn-sm fw-bold text-uppercase">
+                                        Sedang Ditangani
+                                    </button>
+                                @elseif($detail['statuss'] == 'W')
+                                    <button disabled class="btn btn-warning btn-sm fw-bold text-uppercase">
+                                        Menunggu
+                                    </button>
+                                @elseif($detail['statuss'] == 'D')
+                                    <button disabled class="btn btn-success btn-sm fw-bold text-uppercase">
+                                        Selesai
+                                    </button>
+                                @endif
                             </div>
                         </div>
 
@@ -168,13 +186,13 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYBzqp2zGPtI0xnr8N8nN_OjsxxzBB9nw&callback=initMap" async
         defer></script>
     <script>
+        var detail = @json($detail);
+
         function initMap() {
             var location1 = {
                 lat: {{ $lokasi['latitude'] }},
                 lng: {{ $lokasi['longitude'] }}
             };
-
-            console.log(location1);
 
             var location2 = {
                 lat: {{ $lokasi_user['latitude'] }},
@@ -191,57 +209,94 @@
                 center: location1
             });
 
-            var marker1 = new google.maps.Marker({
-                position: location1,
-                map: map,
-                title: 'Lokasi Kejadian'
-            });
+            var icon1 = {
+                url: "{{ URL::asset('image/ICON-KEJADIAN.jpeg') }}",
+                scaledSize: new google.maps.Size(30, 30)
+            }
 
-            var marker2 = new google.maps.Marker({
-                position: location2,
-                map: map,
-                title: 'Lokasi User'
-            });
+            var icon2 = {
+                url: "{{ URL::asset('image/ICON-USER.jpeg') }}",
+                scaledSize: new google.maps.Size(30, 30)
+            }
 
-            var marker3 = new google.maps.Marker({
-                position: location3,
-                map: map,
-                title: 'Lokasi Responder'
-            });
+            var icon3 = {
+                url: "{{ URL::asset('image/ICON-RESPONDER.jpeg') }}",
+                scaledSize: new google.maps.Size(30, 30)
+            }
 
-            var infoWindow1 = new google.maps.InfoWindow({
-                content: `
+            if (detail.statuss == "D") {
+                var marker1 = new google.maps.Marker({
+                    position: location1,
+                    map: map,
+                    title: 'Lokasi Kejadian',
+                    icon: icon1
+                });
+
+                var infoWindow1 = new google.maps.InfoWindow({
+                    content: `
                     <strong>Latitude : {{ $lokasi['latitude'] }} </strong>
                     <br>
                     <strong>Longitude : {{ $lokasi['longitude'] }} </strong>
                 `
-            });
+                });
 
-            var infoWindow2 = new google.maps.InfoWindow({
-                content: `
+                marker1.addListener('click', function() {
+                    infoWindow1.open(map, marker1);
+                });
+            } else {
+                var marker1 = new google.maps.Marker({
+                    position: location1,
+                    map: map,
+                    title: 'Lokasi Kejadian',
+                    icon: icon1
+                });
+
+                var marker2 = new google.maps.Marker({
+                    position: location2,
+                    map: map,
+                    title: 'Lokasi User',
+                    icon: icon2
+                });
+
+                var marker3 = new google.maps.Marker({
+                    position: location3,
+                    map: map,
+                    title: 'Lokasi Responder',
+                    icon: icon3
+                });
+
+                var infoWindow1 = new google.maps.InfoWindow({
+                    content: `
+                    <strong>Latitude : {{ $lokasi['latitude'] }} </strong>
+                    <br>
+                    <strong>Longitude : {{ $lokasi['longitude'] }} </strong>
+                `
+                });
+
+                var infoWindow2 = new google.maps.InfoWindow({
+                    content: `
                     <strong>Nama User : {{ $detail['name'] }} </strong>
                 `
-            });
+                });
 
-            var infoWindow3 = new google.maps.InfoWindow({
-                content: `
+                var infoWindow3 = new google.maps.InfoWindow({
+                    content: `
                     <strong>Nama Responder : {{ $detail['responder_name'] }} </strong>
                 `
-            });
+                });
 
-            marker1.addListener('click', function() {
-                infoWindow1.open(map, marker1);
-            });
+                marker1.addListener('click', function() {
+                    infoWindow1.open(map, marker1);
+                });
 
-            // Menambahkan event listener untuk marker kedua
-            marker2.addListener('click', function() {
-                infoWindow2.open(map, marker2);
-            });
+                marker2.addListener('click', function() {
+                    infoWindow2.open(map, marker2);
+                });
 
-            // Menambahkan event listener untuk marker ketiga
-            marker3.addListener('click', function() {
-                infoWindow3.open(map, marker3);
-            });
+                marker3.addListener('click', function() {
+                    infoWindow3.open(map, marker3);
+                });
+            }
         }
     </script>
 @endsection
