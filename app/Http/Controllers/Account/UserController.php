@@ -105,6 +105,53 @@ class UserController extends Controller
         }
     }
 
+    public function storeExcel(Request $request, $member_account_code)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Validate the uploaded file
+            $request->validate([
+                'file' => 'required|mimes:xlsx,xls|max:2048',
+            ]);
+
+            // Get the uploaded file
+            $file = $request->file('file');
+            $filePath = $file->getPathname();
+            $fileName = $file->getClientOriginalName();
+
+            // Initialize cURL
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, ApiHelper::apiUrl("/organization/account/admin/" . $member_account_code . "/import_user"));
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            // Set the file to be uploaded
+            $postData = [
+                'file' => new \CURLFile($filePath, $file->getClientMimeType(), $fileName)
+            ];
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+            // Execute the request
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            DB::commit();
+
+            // Decode the response
+            $responseBody = json_decode($response, true);
+
+            if ($responseBody["statusCode"] == 201) {
+                return back()->with("success", "Data Berhasil di Simpan");
+            } else {
+                return back()->with("error", $responseBody["message"] ?? "Unknown error");
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with("error", $e->getMessage());
+        }
+    }
+
     public function show($idUser)
     {
         try {

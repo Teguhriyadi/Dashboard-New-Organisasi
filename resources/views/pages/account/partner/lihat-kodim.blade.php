@@ -75,13 +75,13 @@
                                     <td class="text-center">{{ $item['total_transaksi'] }}</td>
                                     <td class="text-center">
                                         @if ($item['total_responder'] != 0)
-                                        <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-info btn-sm">
+                                        <a href="{{ route('pages.account.partner.lihat-responder', ['name' => $name, 'institution_id' => $item['institution_id']]) }}" class="btn btn-info btn-sm">
                                             <i class="fa fa-search"></i> Lihat Responder
                                         </a>
                                         @endif
                                         @if ($item['total_transaksi'] != 0)
 
-                                        <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $dataname, 'institution_id' => $item['institution_id']]) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('pages.account.partner.lihat-transaksi', ['name' => $name, 'institution_id' => $item['institution_id']]) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-search"></i> Lihat Transaksi
                                         </a>
                                         @endif

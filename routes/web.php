@@ -75,6 +75,7 @@ Route::group(["middleware" => ["check.session"]], function () {
                     Route::get("/", "index")->name("pages.accounts.user.index");
                     Route::get("/{member_account_code}", "indexByAdmin")->name("pages.accounts.user.index-admin");
                     Route::post("/{member_account_code}", "store")->name("pages.accounts.user.store");
+                    Route::post("/{member_account_code}/download", "storeExcel")->name("pages.accounts.user.storeExcel");
                     Route::get("/{idUser}/show", "show")->name("pages.accounts.user.show");
                     Route::post("/{idUser}/change-status", "changeStatus")->name("pages.accounts.user.changeStatus");
                     Route::delete("/{idUser}", "destroy")->name("pages.accounts.user.destroy");

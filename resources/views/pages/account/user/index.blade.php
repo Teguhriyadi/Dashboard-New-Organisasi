@@ -42,14 +42,22 @@
                         <h2>
                             Data @yield('title')
                         </h2>
-                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
-                            data-target=".bs-example-modal-lg">
-                            <i class="fa fa-plus"></i> Tambah
-                            {{ $detailMembership['total_user'] }} /
-                            {{ $detailMembership['limit_user'] }}
+                        <div class="row">
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
+                                data-target=".bs-example-modal-lg">
+                                <i class="fa fa-plus"></i> Tambah
+                                {{ $detailMembership['total_user'] }} /
+                                {{ $detailMembership['limit_user'] }}
 
 
-                        </button>
+                            </button>
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
+                                data-target=".bs-example-modal-xl">
+                                <i class="fa fa-plus"></i> Upload Excel
+
+
+                            </button>
+                        </div>
                         <div class="clearfix"></div>
                     </div>
                     @if ($detailMembership['total_user'] > $detailMembership['limit_user'])
@@ -84,13 +92,32 @@
                                             <td class="text-center">{{ ++$nomer }}.</td>
                                             <td>{{ $item['detail']['nama'] }}</td>
                                             <td>{{ $item['detail']['email'] }}</td>
-                                            <td class="text-center">{{ $item['detail']['country_code'] }}{{ $item['detail']['phone_number'] }}</td>
+                                            <td class="text-center">
+                                                {{ $item['detail']['country_code'] }}{{ $item['detail']['phone_number'] }}
+                                            </td>
                                             <td class="text-center">
                                                 {{ empty($item['detail']['username']) ? '-' : $item['detail']['username'] }}
                                             </td>
                                             <td class="text-center">
                                                 @if ($detailMembership['total_user'] == $detailMembership['limit_user'])
-                                                    @if ($item["detail"]['account_status_id'] == "active")
+                                                    @if ($item['detail']['account_status_id'] == 'active')
+                                                        <div class="custom-control custom-switch">
+                                                            <input
+                                                                {{ $item['detail']['account_status_id'] == 'active' ? 'checked' : '' }}
+                                                                type="checkbox" class="custom-control-input js-switch"
+                                                                id="customSwitch{{ $item['detail']['id_user_organization'] }}"
+                                                                data-id="{{ $item['detail']['id_user_organization'] }}">
+                                                            <label class="custom-control-label text-uppercase"
+                                                                for="customSwitch{{ $item['detail']['id_user_organization'] }}">
+                                                                {{ $item['detail']['account_status_id'] }}
+                                                            </label>
+                                                        </div>
+                                                    @else
+                                                        <span class="fw-bold">
+                                                            Kuota Sudah Terpenuhi
+                                                        </span>
+                                                    @endif
+                                                @else
                                                     <div class="custom-control custom-switch">
                                                         <input
                                                             {{ $item['detail']['account_status_id'] == 'active' ? 'checked' : '' }}
@@ -102,23 +129,6 @@
                                                             {{ $item['detail']['account_status_id'] }}
                                                         </label>
                                                     </div>
-                                                    @else
-                                                        <span class="fw-bold">
-                                                            Kuota Sudah Terpenuhi
-                                                        </span>
-                                                    @endif
-                                                @else
-                                                <div class="custom-control custom-switch">
-                                                    <input
-                                                        {{ $item['detail']['account_status_id'] == 'active' ? 'checked' : '' }}
-                                                        type="checkbox" class="custom-control-input js-switch"
-                                                        id="customSwitch{{ $item['detail']['id_user_organization'] }}"
-                                                        data-id="{{ $item['detail']['id_user_organization'] }}">
-                                                    <label class="custom-control-label text-uppercase"
-                                                        for="customSwitch{{ $item['detail']['id_user_organization'] }}">
-                                                        {{ $item['detail']['account_status_id'] }}
-                                                    </label>
-                                                </div>
                                                 @endif
                                             </td>
                                             <td class="text-center">
@@ -202,6 +212,47 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <i class="fa fa-plus"></i> Tambah User Menggunakan Excel
+                    </h4>
+                </div>
+                <form
+                    action="{{ route('pages.accounts.user.storeExcel', ['member_account_code' => session('data.member_account_code')]) }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="file" class="form-label"> Upload File </label>
+                                    <input type="file" class="form-control" name="file" id="file">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-danger">
+                            <i class="fa fa-times"></i> Batal
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-save"></i> Simpan
+                        </button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
